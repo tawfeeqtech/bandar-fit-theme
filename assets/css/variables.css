@@ -1,0 +1,34 @@
+/* assets/css/variables.css */
+:root {
+    /* Brand Colors */
+    --brand-primary: #C5A880;
+    --brand-secondary: #A68B63;
+    --brand-dark: #0F0F0F;
+    --brand-surface: #1A1A1A;
+    --brand-text: #E2E8F0;
+    
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    --spacing-2xl: 5rem;
+    
+    /* Border Radius */
+    --radius-sm: 1rem;
+    --radius-md: 1.5rem;
+    --radius-lg: 2rem;
+    --radius-xl: 3rem;
+    
+    /* Transitions */
+    --transition-fast: 0.3s ease;
+    --transition-normal: 0.5s ease;
+    --transition-slow: 0.6s ease;
+    
+    /* Shadows */
+    --shadow-sm: 0 5px 15px rgba(0,0,0,0.3);
+    --shadow-md: 0 15px 30px rgba(0,0,0,0.5);
+    --shadow-lg: 0 25px 60px rgba(0,0,0,0.8);
+    --shadow-gold: 0 0 20px rgba(197,168,128,0.4);
+}
