@@ -214,75 +214,33 @@ define('NO_HEADER_FOOTER', true);
                 <p class="text-white/40 max-w-2xl mx-auto italic font-bold text-base text-center">5 خطوات علمية لنقل مستواك من الهاوي إلى المحترف تحت إشراف كوتش بندر.</p>
             </div>
 
-            <!-- خطوات العمل (ديناميكي من ووردبريس) -->
+            <!-- خطوات العمل (خطوات البداية) -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-24 text-center">
-                <?php
-                // جلب خطوات المنهجية من قاعدة البيانات
-                $methodology_steps = get_posts([
-                    'post_type' => 'methodology_step',
-                    'posts_per_page' => 5,
-                    'orderby' => 'meta_value_num',
-                    'meta_key' => '_step_number',
-                    'order' => 'ASC'
-                ]);
-                
-                if ($methodology_steps) :
-                    foreach ($methodology_steps as $step) :
-                        $step_number = get_post_meta($step->ID, '_step_number', true);
-                        $step_icon = get_post_meta($step->ID, '_step_icon', true);
-                        $step_description = get_post_meta($step->ID, '_step_description', true);
-                        
-                        // قيم افتراضية إذا كانت الحقول فارغة
-                        if (!$step_number) $step_number = '01';
-                        if (!$step_icon) $step_icon = 'check-circle';
-                        if (!$step_description) $step_description = 'وصف الخطوة';
-                ?>
                 <div class="step-box p-6 rounded-3xl text-center">
-                    <?php if ($step_icon): ?>
-                    <i data-lucide="<?php echo esc_attr($step_icon); ?>" class="text-brand w-7 h-7 mb-4 mx-auto"></i>
-                    <?php endif; ?>
-                    <h4 class="text-sm font-black italic mb-2 uppercase">
-                        <?php 
-                        if ($step_number) {
-                            echo sprintf('%02d. %s', intval($step_number), esc_html($step->post_title));
-                        } else {
-                            echo esc_html($step->post_title);
-                        }
-                        ?>
-                    </h4>
-                    <p class="text-white/40 text-[10px] italic"><?php echo esc_html($step_description); ?></p>
-                </div>
-                <?php
-                    endforeach;
-                else:
-                ?>
-                <!-- خطوات افتراضية إذا لم يتم إضافة خطوات -->
-                <div class="step-box p-6 rounded-3xl text-center">
-                    <i data-lucide="microscope" class="text-brand w-7 h-7 mb-4 mx-auto"></i>
+                    <i data-lucide="microscope" class="text-brand w-7 h-7 mb-4 mx-auto text-center"></i>
                     <h4 class="text-sm font-black italic mb-2 uppercase">01. التحليل الأولي</h4>
                     <p class="text-white/40 text-[10px] italic">تحديد الأهداف الرياضية بناءً على مركزك.</p>
                 </div>
-                <div class="step-box p-6 rounded-3xl text-center">
-                    <i data-lucide="dumbbell" class="text-brand w-7 h-7 mb-4 mx-auto"></i>
-                    <h4 class="text-sm font-black italic mb-2 uppercase">02. التدريب الميداني</h4>
+                <div class="step-box p-6 rounded-3xl text-center text-center">
+                    <i data-lucide="dumbbell" class="text-brand w-7 h-7 mb-4 mx-auto text-center"></i>
+                    <h4 class="text-sm font-black italic mb-2 uppercase text-center">02. التدريب الميداني</h4>
                     <p class="text-white/40 text-[10px] italic">جلسات ميدانية تحاكي المباراة.</p>
                 </div>
                 <div class="step-box p-6 rounded-3xl text-center">
-                    <i data-lucide="activity" class="text-brand w-7 h-7 mb-4 mx-auto"></i>
-                    <h4 class="text-sm font-black italic mb-2 uppercase">03. تحليل الأحمال</h4>
-                    <p class="text-white/40 text-[10px] italic">موازنة شدة التمرين مع مستوى التعب.</p>
+                    <i data-lucide="activity" class="text-brand w-7 h-7 mb-4 mx-auto text-center"></i>
+                    <h4 class="text-sm font-black italic mb-2 uppercase text-brand text-center text-center">03. تحليل الأحمال</h4>
+                    <p class="text-white/40 text-[10px] italic text-center text-center">موازنة شدة التمرين مع مستوى التعب.</p>
                 </div>
-                <div class="step-box p-6 rounded-3xl text-center">
-                    <i data-lucide="utensils" class="text-brand w-7 h-7 mb-4 mx-auto"></i>
-                    <h4 class="text-sm font-black italic mb-2 uppercase">04. جدول غذائي</h4>
-                    <p class="text-white/40 text-[10px] italic">خطة تغذية مخصصة لطاقة كافٍ.</p>
+                <div class="step-box p-6 rounded-3xl text-center text-center text-center">
+                    <i data-lucide="utensils" class="text-brand w-7 h-7 mb-4 mx-auto text-center text-center"></i>
+                    <h4 class="text-sm font-black italic mb-2 uppercase text-brand text-center text-center">04. جدول غذائي</h4>
+                    <p class="text-white/40 text-[10px] italic text-center">خطة تغذية مخصصة لطاقة كافٍ.</p>
                 </div>
-                <div class="step-box p-6 rounded-3xl text-center">
-                    <i data-lucide="heart-pulse" class="text-brand w-7 h-7 mb-4 mx-auto"></i>
-                    <h4 class="text-sm font-black italic mb-2 uppercase">05. الوقاية والاستشفاء</h4>
-                    <p class="text-white/40 text-[10px] italic">بروتوكول وقائي وتقوية المفاصل.</p>
+                <div class="step-box p-6 rounded-3xl text-center text-center text-center">
+                    <i data-lucide="heart-pulse" class="text-brand w-7 h-7 mb-4 mx-auto text-center text-center text-center"></i>
+                    <h4 class="text-sm font-black italic mb-2 uppercase text-center text-center text-center">05. الوقاية والاستشفاء</h4>
+                    <p class="text-white/40 text-[10px] italic text-center text-center text-center text-center">بروتوكول وقائي وتقوية المفاصل.</p>
                 </div>
-                <?php endif; ?>
             </div>
 
             <!-- قسم مقاطع الرياضيين (ديناميكي) -->
@@ -300,24 +258,12 @@ define('NO_HEADER_FOOTER', true);
                     
                     if ($athletes) :
                         foreach ($athletes as $athlete) :
-                            // جلب بيانات الفيديو والصورة المخصصة
-                            $video_url = get_post_meta($athlete->ID, '_athlete_video_url', true);
-                            $video_thumbnail = get_post_meta($athlete->ID, '_athlete_video_thumbnail', true);
-                            
-                            // استخدام لقطة الفيديو المخصصة، أو الصورة المميزة، أو الصورة الافتراضية
-                            if ($video_thumbnail) {
-                                $athlete_image = $video_thumbnail;
-                            } else {
-                                $athlete_image = get_the_post_thumbnail_url($athlete->ID, 'large');
-                                if (!$athlete_image) {
-                                    $athlete_image = 'https://images.unsplash.com/photo-1544033527-b192daee1f5b?q=80&w=600';
-                                }
+                            $athlete_image = get_the_post_thumbnail_url($athlete->ID, 'large');
+                            if (!$athlete_image) {
+                                $athlete_image = 'https://images.unsplash.com/photo-1544033527-b192daee1f5b?q=80&w=600';
                             }
                     ?>
                     <div class="rounded-[2rem] overflow-hidden relative group aspect-video border border-white/5 text-center">
-                        <?php if ($video_url): ?>
-                        <a href="<?php echo esc_url($video_url); ?>" target="_blank" class="block w-full h-full">
-                        <?php endif; ?>
                         <img src="<?php echo esc_url($athlete_image); ?>" class="w-full h-full object-cover group-hover:scale-110 transition-all duration-700 brightness-75" alt="<?php echo esc_attr($athlete->post_title); ?>">
                         <div class="absolute inset-0 video-overlay flex items-center justify-center text-center">
                             <div class="w-12 h-12 bg-brand/90 rounded-full flex items-center justify-center shadow-lg text-center text-center">
@@ -327,9 +273,6 @@ define('NO_HEADER_FOOTER', true);
                         <div class="absolute bottom-3 right-4 text-right">
                             <p class="text-[10px] font-black uppercase text-brand italic"><?php echo esc_html($athlete->post_title); ?></p>
                         </div>
-                        <?php if ($video_url): ?>
-                        </a>
-                        <?php endif; ?>
                     </div>
                     <?php
                         endforeach;

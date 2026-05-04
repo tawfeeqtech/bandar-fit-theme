@@ -43,6 +43,142 @@ function bandar_register_post_types() {
     ]);
     
     // ============================================
+    // 6. CPT: Methodology Steps (خطوات المنهجية)
+    // ============================================
+    register_post_type('methodology_step', [
+        'labels' => [
+            'name'               => __('خطوات المنهجية', 'bandar-fit'),
+            'singular_name'      => __('خطوة منهجية', 'bandar-fit'),
+            'add_new'            => __('إضافة خطوة', 'bandar-fit'),
+            'add_new_item'       => __('إضافة خطوة جديدة', 'bandar-fit'),
+            'edit_item'          => __('تعديل خطوة', 'bandar-fit'),
+            'new_item'           => __('خطوة جديدة', 'bandar-fit'),
+            'view_item'          => __('عرض خطوة', 'bandar-fit'),
+            'search_items'       => __('بحث عن خطوة', 'bandar-fit'),
+            'not_found'          => __('لا يوجد خطوات', 'bandar-fit'),
+            'not_found_in_trash' => __('لا يوجد خطوات في سلة المحذوفات', 'bandar-fit'),
+            'menu_name'          => __('خطوات المنهجية', 'bandar-fit'),
+        ],
+        'public'                => false,
+        'publicly_queryable'    => false,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'show_in_nav_menus'     => false,
+        'show_in_admin_bar'     => true,
+        'show_in_rest'          => true,
+        'has_archive'           => false,
+        'hierarchical'          => false,
+        'menu_position'         => 10,
+        'menu_icon'             => 'dashicons-list-ol',
+        'supports'              => ['title', 'custom-fields'],
+        'rewrite'               => false,
+        'query_var'             => false,
+    ]);
+    
+    // ============================================
+    // Add Meta Boxes for Methodology Steps
+    // ============================================
+    function bandar_add_methodology_meta_boxes() {
+        add_meta_box(
+            'methodology_step_details',
+            __('تفاصيل الخطوة', 'bandar-fit'),
+            'bandar_methodology_callback',
+            'methodology_step',
+            'normal',
+            'high'
+        );
+    }
+    add_action('add_meta_boxes', 'bandar_add_methodology_meta_boxes');
+    
+    function bandar_methodology_callback($post) {
+        wp_nonce_field('methodology_step_meta_box', 'methodology_step_meta_box_nonce');
+        
+        $step_number = get_post_meta($post->ID, '_step_number', true);
+        $step_icon = get_post_meta($post->ID, '_step_icon', true);
+        $step_description = get_post_meta($post->ID, '_step_description', true);
+        
+        echo '<div class="methodology-meta-field" style="margin-bottom: 15px;">';
+        echo '<label for="step_number" style="display: block; font-weight: bold; margin-bottom: 5px;">' . __('رقم الخطوة', 'bandar-fit') . '</label>';
+        echo '<input type="number" id="step_number" name="step_number" value="' . esc_attr($step_number) . '" style="width: 100%; padding: 8px;" min="1" max="99">';
+        echo '<p style="font-size: 12px; color: #666; margin-top: 5px;">' . __('رقم الخطوة للترتيب (1, 2, 3, ...)', 'bandar-fit') . '</p>';
+        echo '</div>';
+        
+        echo '<div class="methodology-meta-field" style="margin-bottom: 15px;">';
+        echo '<label for="step_icon" style="display: block; font-weight: bold; margin-bottom: 5px;">' . __('اسم الأيقونة (Lucide)', 'bandar-fit') . '</label>';
+        echo '<input type="text" id="step_icon" name="step_icon" value="' . esc_attr($step_icon) . '" style="width: 100%; padding: 8px;">';
+        echo '<p style="font-size: 12px; color: #666; margin-top: 5px;">' . __('مثال: microscope, dumbbell, activity, utensils, heart-pulse', 'bandar-fit') . '</p>';
+        echo '</div>';
+        
+        echo '<div class="methodology-meta-field">';
+        echo '<label for="step_description" style="display: block; font-weight: bold; margin-bottom: 5px;">' . __('وصف الخطوة', 'bandar-fit') . '</label>';
+        echo '<textarea id="step_description" name="step_description" style="width: 100%; padding: 8px; min-height: 80px;">' . esc_textarea($step_description) . '</textarea>';
+        echo '<p style="font-size: 12px; color: #666; margin-top: 5px;">' . __('وصف قصير للخطوة', 'bandar-fit') . '</p>';
+        echo '</div>';
+    }
+    
+    function bandar_save_methodology_meta($post_id) {
+        if (!isset($_POST['methodology_step_meta_box_nonce']) || !wp_verify_nonce($_POST['methodology_step_meta_box_nonce'], 'methodology_step_meta_box')) {
+            return;
+        }
+        
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return;
+        }
+        
+        if (!current_user_can('edit_post', $post_id)) {
+            return;
+        }
+        
+        if (isset($_POST['step_number'])) {
+            update_post_meta($post_id, '_step_number', intval($_POST['step_number']));
+        }
+        
+        if (isset($_POST['step_icon'])) {
+            update_post_meta($post_id, '_step_icon', sanitize_text_field($_POST['step_icon']));
+        }
+        
+        if (isset($_POST['step_description'])) {
+            update_post_meta($post_id, '_step_description', sanitize_textarea_field($_POST['step_description']));
+        }
+    }
+    add_action('save_post', 'bandar_save_methodology_meta');
+    
+    // ============================================
+    // Add Meta Boxes for Athletes
+    // ============================================
+    function bandar_add_athlete_meta_boxes() {
+        add_meta_box(
+            'bandar_athlete_video_details',
+            __('تفاصيل فيديو الرياضي', 'bandar-fit'),
+            'bandar_athlete_video_callback',
+            'athlete',
+            'normal',
+            'high'
+        );
+    }
+    add_action('add_meta_boxes', 'bandar_add_athlete_meta_boxes');
+    
+    function bandar_athlete_video_callback($post) {
+        wp_nonce_field('bandar_athlete_meta_box', 'bandar_athlete_meta_box_nonce');
+        
+        $video_url = get_post_meta($post->ID, '_athlete_video_url', true);
+        $video_thumbnail = get_post_meta($post->ID, '_athlete_video_thumbnail', true);
+        
+        echo '<div class="bandar-meta-field" style="margin-bottom: 15px;">';
+        echo '<label for="athlete_video_url" style="display: block; font-weight: bold; margin-bottom: 5px;">' . __('رابط الفيديو (YouTube/Vimeo/MP4)', 'bandar-fit') . '</label>';
+        echo '<input type="url" id="athlete_video_url" name="athlete_video_url" value="' . esc_attr($video_url) . '" style="width: 100%; padding: 8px;">';
+        echo '<p style="font-size: 12px; color: #666; margin-top: 5px;">' . __('أدخل رابط الفيديو الكامل', 'bandar-fit') . '</p>';
+        echo '</div>';
+        
+        echo '<div class="bandar-meta-field">';
+        echo '<label for="athlete_video_thumbnail" style="display: block; font-weight: bold; margin-bottom: 5px;">' . __('لقطة الفيديو (رابط الصورة)', 'bandar-fit') . '</label>';
+        echo '<input type="url" id="athlete_video_thumbnail" name="athlete_video_thumbnail" value="' . esc_attr($video_thumbnail) . '" style="width: 100%; padding: 8px;">';
+        echo '<p style="font-size: 12px; color: #666; margin-top: 5px;">' . __('رابط صورة اللقطة التي تظهر كغلاف للفيديو', 'bandar-fit') . '</p>';
+        echo '</div>';
+    }
+    
+        
+    // ============================================
     // 2. CPT: Evaluations (التقييمات)
     // ============================================
     register_post_type('evaluation', [
@@ -217,49 +353,8 @@ add_action('manage_athlete_posts_custom_column', 'bandar_athlete_column_content'
 /**
  * إضافة مربعات ميتا لـ CPT الرياضيون
  */
-function bandar_add_athlete_meta_boxes() {
-    add_meta_box(
-        'athlete_details',
-        __('تفاصيل الرياضي', 'bandar-fit'),
-        'bandar_athlete_meta_box_callback',
-        'athlete',
-        'normal',
-        'high'
-    );
-}
 add_action('add_meta_boxes', 'bandar_add_athlete_meta_boxes');
 
-/**
- * محتوى مربع الميتا للرياضي
- */
-function bandar_athlete_meta_box_callback($post) {
-    wp_nonce_field('bandar_athlete_meta_box', 'bandar_athlete_meta_box_nonce');
-    
-    $position = get_post_meta($post->ID, 'athlete_position', true);
-    $age = get_post_meta($post->ID, 'athlete_age', true);
-    $club = get_post_meta($post->ID, 'athlete_club', true);
-    $nationality = get_post_meta($post->ID, 'athlete_nationality', true);
-    ?>
-    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
-        <p>
-            <label for="athlete_position"><strong><?php _e('المركز', 'bandar-fit'); ?></strong></label>
-            <input type="text" id="athlete_position" name="athlete_position" value="<?php echo esc_attr($position); ?>" class="widefat">
-        </p>
-        <p>
-            <label for="athlete_age"><strong><?php _e('العمر', 'bandar-fit'); ?></strong></label>
-            <input type="number" id="athlete_age" name="athlete_age" value="<?php echo esc_attr($age); ?>" class="widefat">
-        </p>
-        <p>
-            <label for="athlete_club"><strong><?php _e('النادي', 'bandar-fit'); ?></strong></label>
-            <input type="text" id="athlete_club" name="athlete_club" value="<?php echo esc_attr($club); ?>" class="widefat">
-        </p>
-        <p>
-            <label for="athlete_nationality"><strong><?php _e('الجنسية', 'bandar-fit'); ?></strong></label>
-            <input type="text" id="athlete_nationality" name="athlete_nationality" value="<?php echo esc_attr($nationality); ?>" class="widefat">
-        </p>
-    </div>
-    <?php
-}
 
 /**
  * حفظ بيانات الميتا للرياضي
@@ -281,11 +376,13 @@ function bandar_save_athlete_meta($post_id) {
         return;
     }
     
-    $fields = ['athlete_position', 'athlete_age', 'athlete_club', 'athlete_nationality'];
-    foreach ($fields as $field) {
-        if (isset($_POST[$field])) {
-            update_post_meta($post_id, $field, sanitize_text_field($_POST[$field]));
-        }
+    // حفظ حقول الفيديو فقط
+    if (isset($_POST['athlete_video_url'])) {
+        update_post_meta($post_id, '_athlete_video_url', sanitize_url($_POST['athlete_video_url']));
+    }
+    
+    if (isset($_POST['athlete_video_thumbnail'])) {
+        update_post_meta($post_id, '_athlete_video_thumbnail', sanitize_url($_POST['athlete_video_thumbnail']));
     }
 }
 add_action('save_post_athlete', 'bandar_save_athlete_meta');
