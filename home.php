@@ -4,7 +4,8 @@
  * @package BandarFit
  */
 
-get_header();
+// Disable WordPress header and footer for SPA
+define('NO_HEADER_FOOTER', true);
 ?>
 
 <!DOCTYPE html>
@@ -502,5 +503,3 @@ get_header();
     </script>
 </body>
 </html>
-
-<?php get_footer(); ?>
