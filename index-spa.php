@@ -4,6 +4,7 @@
  * @package BandarFit
  */
 
+// WordPress Header
 get_header();
 ?>
 
@@ -432,7 +433,7 @@ get_header();
                     <ul class="space-y-5 text-xs font-bold opacity-80 text-center text-center">
                         <li class="flex items-center justify-center gap-3 text-center text-center text-center"><i data-lucide="check-circle" class="text-brand w-4 h-4 shrink-0 text-center text-center"></i> <span>التقييمات البدنية الشاملة لجميع الوظائف الحركية</span></li>
                         <li class="flex items-center justify-center gap-3 text-center text-center text-center text-center"><i data-lucide="check-circle" class="text-brand w-4 h-4 shrink-0 text-center text-center"></i> <span>تقرير تقني مفصل (PDF) جاهز للتقديم للأندية</span></li>
-                        <li class="flex items-center justify-center gap-3 text-center text-center text-center text-center text-center text-center"><i data-lucide="check-circle" class="text-brand w-4 h-4 shrink-0 text-center text-center"></i> <span>مقارنة مستواك الفعلي مع معايير اللاعبين النخبة</span></li>
+                        <li class="flex items-center justify-center gap-3 text-center text-center text-center text-center text-center text-center text-center"><i data-lucide="check-circle" class="text-brand w-4 h-4 shrink-0 text-center text-center"></i> <span>مقارنة مستواك الفعلي مع معايير اللاعبين النخبة</span></li>
                         <li class="flex items-center justify-center gap-3 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center"><i data-lucide="check-circle" class="text-brand w-4 h-4 shrink-0 text-center text-center"></i> <span>جلسة استشارية خاصة لتحليل نقاط الضعف وتطويرها</span></li>
                     </ul>
                 </div>

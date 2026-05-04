@@ -1,0 +1,714 @@
+/**
+ * BANDAR FIT - Responsive Styles
+ * التصميم المتجاوب لجميع الشاشات
+ */
+
+/* ============================================
+   جدول المحتويات
+   1. Large Desktop (1400px+)
+   2. Desktop (1200px - 1399px)
+   3. Laptop (992px - 1199px)
+   4. Tablet (768px - 991px)
+   5. Mobile Large (576px - 767px)
+   6. Mobile Medium (376px - 575px)
+   7. Mobile Small (320px - 375px)
+   ============================================ */
+
+/* 1. Large Desktop (1400px and above) */
+@media (min-width: 1400px) {
+    .container {
+        max-width: 1320px;
+    }
+    
+    .hero-title {
+        font-size: 85px;
+    }
+    
+    .section-title {
+        font-size: 56px;
+    }
+}
+
+/* 2. Desktop (1200px - 1399px) */
+@media (min-width: 1200px) and (max-width: 1399px) {
+    .container {
+        max-width: 1140px;
+    }
+}
+
+/* 3. Laptop (992px - 1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .container {
+        max-width: 960px;
+    }
+    
+    .hero-title {
+        font-size: 60px;
+    }
+    
+    .section-title {
+        font-size: 42px;
+    }
+    
+    .steps-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* 4. Tablet (768px - 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+    .container {
+        max-width: 720px;
+    }
+    
+    /* Header */
+    .primary-nav {
+        display: none;
+    }
+    
+    .mobile-menu-btn {
+        display: flex;
+    }
+    
+    /* Hero */
+    .hero-title {
+        font-size: 48px;
+    }
+    
+    .hero-subtitle {
+        font-size: 16px;
+    }
+    
+    .hero-stats {
+        gap: 30px;
+    }
+    
+    /* Sections */
+    .section-title {
+        font-size: 36px;
+    }
+    
+    /* Grids */
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .packages-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .packages-grid .price-card.featured {
+        grid-column: span 2;
+        transform: none;
+    }
+    
+    .steps-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .athletes-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .evaluations-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Evaluation Offer */
+    .evaluation-offer {
+        padding: 40px;
+        border-radius: 40px;
+    }
+    
+    /* CTA */
+    .cta-title {
+        font-size: 42px;
+    }
+    
+    /* Footer */
+    .footer-widgets {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* 5. Mobile Large (576px - 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+    .container {
+        max-width: 540px;
+    }
+    
+    /* Header */
+    .primary-nav {
+        display: none;
+    }
+    
+    .mobile-menu-btn {
+        display: flex;
+    }
+    
+    .top-bar-text {
+        font-size: 10px;
+    }
+    
+    /* Hero */
+    .hero-title {
+        font-size: 36px;
+    }
+    
+    .hero-subtitle {
+        font-size: 14px;
+        padding: 0 15px;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .hero-buttons .btn {
+        width: 80%;
+        text-align: center;
+    }
+    
+    .hero-stats {
+        gap: 20px;
+    }
+    
+    .stat-number {
+        font-size: 24px;
+    }
+    
+    .stat-label {
+        font-size: 10px;
+    }
+    
+    /* Sections */
+    .section {
+        padding: 60px 0;
+    }
+    
+    .section-title {
+        font-size: 32px;
+    }
+    
+    .section-subtitle {
+        font-size: 14px;
+    }
+    
+    /* Grids */
+    .services-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    
+    .packages-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    
+    .price-card.featured {
+        transform: none;
+        order: -1;
+    }
+    
+    .steps-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .athletes-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .evaluations-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    
+    /* Evaluation Offer */
+    .evaluation-offer {
+        padding: 30px 20px;
+        border-radius: 30px;
+    }
+    
+    .offer-title {
+        font-size: 24px;
+    }
+    
+    .offer-price .price-number {
+        font-size: 48px;
+    }
+    
+    /* Price Card Styles */
+    .price-card {
+        padding: 30px 20px;
+    }
+    
+    .price-number {
+        font-size: 36px;
+    }
+    
+    /* CTA */
+    .cta-section {
+        padding: 60px 0;
+    }
+    
+    .cta-title {
+        font-size: 32px;
+    }
+    
+    .cta-subtitle {
+        font-size: 14px;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+    }
+    
+    .cta-buttons .btn {
+        width: 100%;
+    }
+    
+    .cta-features {
+        gap: 20px;
+    }
+    
+    /* Footer */
+    .footer-widgets {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 40px;
+    }
+    
+    .social-icons {
+        justify-content: center;
+    }
+    
+    .footer-bottom p {
+        font-size: 10px;
+    }
+    
+    /* Back to top */
+    .back-to-top {
+        width: 45px;
+        height: 45px;
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+/* 6. Mobile Medium (376px - 575px) */
+@media (min-width: 376px) and (max-width: 575px) {
+    .container {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    
+    /* Header */
+    .site-header {
+        padding: 10px 0;
+    }
+    
+    .logo-text {
+        font-size: 18px;
+    }
+    
+    .logo-icon {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .top-bar {
+        display: none;
+    }
+    
+    /* Hero */
+    .hero-title {
+        font-size: 28px;
+    }
+    
+    .hero-tagline {
+        font-size: 10px;
+        letter-spacing: 3px;
+    }
+    
+    .hero-subtitle {
+        font-size: 13px;
+    }
+    
+    .stat-number {
+        font-size: 20px;
+    }
+    
+    .stat-label {
+        font-size: 9px;
+    }
+    
+    /* Sections */
+    .section-title {
+        font-size: 28px;
+    }
+    
+    .section-tag {
+        font-size: 10px;
+        letter-spacing: 3px;
+    }
+    
+    /* Steps */
+    .steps-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    
+    .step-card {
+        padding: 25px;
+    }
+    
+    /* Athletes */
+    .athletes-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    
+    /* Cards */
+    .service-card {
+        padding: 30px 20px;
+    }
+    
+    .service-card-title {
+        font-size: 20px;
+    }
+    
+    /* Price Card */
+    .price-card-title {
+        font-size: 20px;
+    }
+    
+    .price-number {
+        font-size: 32px;
+    }
+    
+    .price-features li {
+        font-size: 12px;
+    }
+    
+    /* Eval Card */
+    .eval-card {
+        padding: 30px 20px;
+    }
+    
+    .eval-title {
+        font-size: 18px;
+    }
+    
+    /* Offer */
+    .offer-features li {
+        font-size: 12px;
+    }
+    
+    /* WhatsApp Float */
+    .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        bottom: 15px;
+        right: 15px;
+    }
+}
+
+/* 7. Mobile Small (320px - 375px) */
+@media (max-width: 375px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    /* Hero */
+    .hero-title {
+        font-size: 24px;
+    }
+    
+    .hero-subtitle {
+        font-size: 12px;
+    }
+    
+    .hero-stats {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .stat-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        padding-bottom: 8px;
+    }
+    
+    .stat-number {
+        font-size: 18px;
+    }
+    
+    .stat-label {
+        font-size: 11px;
+    }
+    
+    /* Section */
+    .section-title {
+        font-size: 24px;
+    }
+    
+    /* Buttons */
+    .btn {
+        padding: 12px 20px;
+        font-size: 13px;
+    }
+    
+    .btn-large {
+        padding: 14px 24px;
+    }
+    
+    /* Price Card */
+    .price-card {
+        padding: 25px 15px;
+    }
+    
+    .price-number {
+        font-size: 28px;
+    }
+    
+    /* CTA */
+    .cta-title {
+        font-size: 24px;
+    }
+    
+    .cta-feature {
+        font-size: 11px;
+    }
+    
+    /* Footer */
+    .footer-widget-title {
+        font-size: 16px;
+    }
+}
+
+/* RTL Specific Adjustments */
+.rtl .service-card-link svg {
+    transform: rotate(180deg);
+}
+
+.rtl .service-card-link:hover svg {
+    transform: rotate(180deg) translateX(5px);
+}
+
+.rtl .read-more svg {
+    transform: rotate(180deg);
+}
+
+.rtl .read-more:hover svg {
+    transform: rotate(180deg) translateX(-5px);
+}
+
+/* Landscape Mode */
+@media (max-width: 900px) and (orientation: landscape) {
+    .hero-main {
+        min-height: auto;
+        padding: 100px 0;
+    }
+    
+    .section {
+        padding: 40px 0;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .site-header,
+    .whatsapp-float,
+    .back-to-top,
+    .hero-buttons,
+    .cta-section,
+    .site-footer {
+        display: none !important;
+    }
+    
+    body {
+        background: white;
+        color: black;
+    }
+    
+    .hero-title {
+        color: black;
+    }
+    
+    a {
+        text-decoration: none;
+        color: black;
+    }
+}
+
+/* assets/css/responsive.css - إضافة تحسينات اللمس */
+/* Touch target minimum size 44px */
+.btn,
+button,
+a[role="button"],
+.mobile-menu-btn,
+.whatsapp-float,
+.back-to-top,
+.accordion-header,
+.tab-btn,
+.service-card-link,
+.price-card .btn,
+.eval-card .btn,
+.close-btn {
+    min-width: 44px;
+    min-height: 44px;
+}
+
+/* زيادة padding للأزرار على الموبايل */
+@media (max-width: 768px) {
+    .btn {
+        padding: 12px 20px;
+        min-height: 48px;
+    }
+    
+    .service-card-link {
+        display: inline-flex;
+        padding: 8px 0;
+    }
+    
+    /* تحسين المسافات بين العناصر القابلة للنقر */
+    .nav-menu li {
+        margin: 8px 0;
+    }
+    
+    .footer-menu a {
+        padding: 8px 0;
+        display: inline-block;
+    }
+}
+
+/* assets/css/responsive.css - تحسينات القائمة المتنقلة */
+.mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg-primary);
+    z-index: var(--z-modal);
+    transform: translateX(100%);
+    transition: transform var(--transition-base);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.mobile-menu-overlay[hidden] {
+    display: none;
+}
+
+.mobile-menu-overlay.active {
+    transform: translateX(0);
+}
+
+.mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.mobile-menu-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-nav {
+    flex: 1;
+}
+
+.mobile-nav-menu {
+    list-style: none;
+    padding: 0;
+}
+
+.mobile-nav-menu li {
+    margin: 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.mobile-nav-menu a {
+    display: block;
+    padding: 16px;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
+.mobile-nav-menu a:active,
+.mobile-nav-menu a:hover {
+    color: var(--brand-primary);
+}
+
+.mobile-menu-footer {
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    margin-top: auto;
+}
+
+/* assets/css/responsive.css - إصلاحات إضافية */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+* {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* تحسين الشبكات على الشاشات الصغيرة جداً */
+@media (max-width: 375px) {
+    .services-grid,
+    .packages-grid,
+    .athletes-grid,
+    .evaluations-grid,
+    .steps-grid {
+        gap: 15px;
+    }
+    
+    .service-card,
+    .price-card,
+    .eval-card,
+    .step-card {
+        padding: 20px 15px;
+    }
+    
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    /* منع التمرير الأفقي */
+    .hero-stats,
+    .cta-features,
+    .price-features,
+    .offer-features {
+        overflow-x: hidden;
+    }
+    
+    /* تحسين النصوص */
+    .hero-title {
+        font-size: 28px;
+        line-height: 1.2;
+    }
+    
+    .section-title {
+        font-size: 24px;
+    }
+}

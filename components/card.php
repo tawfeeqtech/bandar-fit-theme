@@ -1,32 +1,85 @@
-// components/card.php
-function bandar_card($title, $description, $icon = null, $price = null, $features = []) {
+<?php
+/**
+ * مكون البطاقة Card Component
+ * @package BandarFit
+ */
+
+/**
+ * بطاقة خدمة Service Card
+ */
+function bandar_service_card($title, $description, $icon, $link = '#', $price = null) {
     ob_start();
     ?>
-    <div class="bg-surface border border-white/5 rounded-[2rem] p-8 text-center transition-all duration-500 hover:-translate-y-2 hover:border-brand">
-        <?php if ($icon): ?>
-            <div class="w-14 h-14 bg-brand/10 rounded-2xl flex items-center justify-center border border-brand/20 mx-auto mb-6">
-                <i data-lucide="<?php echo esc_attr($icon); ?>" class="text-brand w-7 h-7"></i>
-            </div>
+    <div class="service-card" onclick="location.href='<?php echo esc_url($link); ?>'">
+        <div class="service-card-icon">
+            <i data-lucide="<?php echo esc_attr($icon); ?>" width="32" height="32"></i>
+        </div>
+        <h3 class="service-card-title"><?php echo esc_html($title); ?></h3>
+        <p class="service-card-subtitle"><?php echo esc_html($description); ?></p>
+        <?php if ($price) : ?>
+            <div class="service-card-price"><?php echo esc_html($price); ?></div>
+        <?php endif; ?>
+        <div class="service-card-link">
+            <span><?php _e('اكتشف المزيد', 'bandar-fit'); ?></span>
+            <i data-lucide="arrow-left" width="16" height="16"></i>
+        </div>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
+/**
+ * بطاقة سعر Price Card
+ */
+function bandar_price_card($title, $price, $features, $featured = false, $button_text = null, $button_link = '#') {
+    $button_text = $button_text ?: __('اختر الباقة', 'bandar-fit');
+    $featured_class = $featured ? 'featured' : '';
+    
+    ob_start();
+    ?>
+    <div class="price-card <?php echo esc_attr($featured_class); ?>">
+        <?php if ($featured) : ?>
+            <div class="price-card-badge"><?php _e('الأكثر طلباً', 'bandar-fit'); ?></div>
         <?php endif; ?>
         
-        <h3 class="text-xl font-black italic mb-3 uppercase"><?php echo esc_html($title); ?></h3>
-        <p class="text-white/50 text-xs leading-relaxed italic mb-6"><?php echo esc_html($description); ?></p>
+        <h3 class="price-card-title"><?php echo esc_html($title); ?></h3>
         
-        <?php if ($price): ?>
-            <div class="mb-6">
-                <span class="text-4xl font-black italic text-brand"><?php echo esc_html($price); ?></span>
-            </div>
-        <?php endif; ?>
+        <div class="price-amount">
+            <span class="price-number"><?php echo esc_html($price); ?></span>
+            <span class="price-currency"><?php _e('ريال', 'bandar-fit'); ?></span>
+        </div>
         
-        <?php if (!empty($features)): ?>
-            <ul class="space-y-2 mb-6">
-                <?php foreach ($features as $feature): ?>
-                    <li class="flex items-center justify-center gap-2 text-xs">
-                        <i data-lucide="check" class="text-brand w-3 h-3"></i>
-                        <span><?php echo esc_html($feature); ?></span>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
+        <ul class="price-features">
+            <?php foreach ($features as $feature) : ?>
+                <li>
+                    <i data-lucide="check" width="16" height="16"></i>
+                    <span><?php echo esc_html($feature); ?></span>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        
+        <a href="<?php echo esc_url($button_link); ?>" class="btn <?php echo $featured ? 'btn-primary' : 'btn-secondary'; ?> btn-block">
+            <?php echo esc_html($button_text); ?>
+        </a>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
+/**
+ * بطاقة تقييم Evaluation Card
+ */
+function bandar_evaluation_card($title, $description, $icon, $price = null) {
+    ob_start();
+    ?>
+    <div class="eval-card">
+        <div class="eval-icon">
+            <i data-lucide="<?php echo esc_attr($icon); ?>" width="32" height="32"></i>
+        </div>
+        <h3 class="eval-title"><?php echo esc_html($title); ?></h3>
+        <p class="eval-description"><?php echo esc_html($description); ?></p>
+        <?php if ($price) : ?>
+            <div class="eval-price"><?php echo esc_html($price); ?></div>
         <?php endif; ?>
     </div>
     <?php

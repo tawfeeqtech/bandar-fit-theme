@@ -1,17 +1,86 @@
-// components/button.php
-function bandar_button($label, $type = 'primary', $link = '#', $icon = null) {
-$classes = 'inline-flex items-center justify-center gap-2 font-black italic uppercase transition-all duration-300';
+<?php
+/**
+ * مكون الزر Button Component
+ * @package BandarFit
+ * 
+ * @param string $text      نص الزر
+ * @param string $type      نوع الزر (primary, secondary, outline, whatsapp)
+ * @param string $link      رابط الزر
+ * @param string $icon      اسم الأيقونة (من Lucide)
+ * @param array  $attrs     سمات إضافية
+ * @return string
+ */
 
-if ($type === 'primary') {
-$classes .= ' gold-gradient text-dark rounded-xl px-8 py-4 hover:scale-105';
-} elseif ($type === 'secondary') {
-$classes .= ' border border-brand/20 text-brand rounded-xl px-8 py-4 hover:bg-brand hover:text-dark';
-} elseif ($type === 'whatsapp') {
-$classes .= ' bg-[#25d366] text-white rounded-full p-4 shadow-lg hover:scale-110';
+function bandar_button($text, $type = 'primary', $link = '#', $icon = null, $attrs = []) {
+    $classes = ['btn', 'btn-' . $type];
+    
+    if (isset($attrs['class'])) {
+        $classes[] = $attrs['class'];
+        unset($attrs['class']);
+    }
+    
+    if (isset($attrs['size']) && $attrs['size'] === 'large') {
+        $classes[] = 'btn-large';
+    } elseif (isset($attrs['size']) && $attrs['size'] === 'small') {
+        $classes[] = 'btn-small';
+    }
+    
+    if (isset($attrs['block']) && $attrs['block'] === true) {
+        $classes[] = 'btn-block';
+    }
+    
+    $class_string = implode(' ', $classes);
+    
+    $attributes = '';
+    foreach ($attrs as $key => $value) {
+        if (!in_array($key, ['size', 'block', 'class'])) {
+            $attributes .= ' ' . esc_attr($key) . '="' . esc_attr($value) . '"';
+        }
+    }
+    
+    $icon_html = '';
+    if ($icon) {
+        $icon_html = '<i data-lucide="' . esc_attr($icon) . '" class="btn-icon"></i>';
+    }
+    
+    return sprintf(
+        '<a href="%s" class="%s"%s>%s%s<span class="btn-text">%s</span></a>',
+        esc_url($link),
+        esc_attr($class_string),
+        $attributes,
+        $type === 'whatsapp' ? '' : $icon_html,
+        $type === 'whatsapp' ? '<i data-lucide="message-circle" class="btn-icon"></i>' : '',
+        esc_html($text)
+    );
 }
 
-return sprintf('<a href="%s" class="%s">%s%s</a>',
-esc_url($link), $classes, $icon ? '<i data-lucide="'.$icon.'" class="w-5 h-5 ml-2"></i>' : '',
-esc_html($label)
-);
+/**
+ * زر واتساب سريع
+ */
+function bandar_whatsapp_button($text = null, $size = 'default') {
+    $text = $text ?: __('تواصل عبر واتساب', 'bandar-fit');
+    return bandar_button($text, 'whatsapp', bandar_get_whatsapp_url(), 'message-circle', ['size' => $size]);
+}
+
+/**
+ * زر شراء منتج
+ */
+function bandar_add_to_cart_button($product_id, $text = null) {
+    if (!class_exists('WooCommerce')) {
+        return '';
+    }
+    
+    $text = $text ?: __('أضف إلى السلة', 'bandar-fit');
+    $product = wc_get_product($product_id);
+    
+    if (!$product) {
+        return '';
+    }
+    
+    return sprintf(
+        '<a href="%s" class="btn btn-primary add_to_cart_button" data-product_id="%d">%s</a>',
+        esc_url($product->add_to_cart_url()),
+        $product_id,
+        esc_html($text)
+    );
 }

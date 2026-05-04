@@ -1,0 +1,538 @@
+# Copyright (C) 2024 BANDAR FIT
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: BANDAR FIT\n"
+"Report-Msgid-Bugs-To: https://bandar-fit.com\n"
+"POT-Creation-Date: 2024-01-01 12:00+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: MOONYEAR MONTH DAY HOUR+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: BANDAR FIT\n"
+"X-Generator: WP-CLI 2.0\n"
+
+#: header.php:50
+msgid "تواصل معنا عبر واتساب"
+msgstr ""
+
+#: header.php:100
+msgid "تواصل معنا"
+msgstr ""
+
+#: header.php:107
+msgid "القائمة"
+msgstr ""
+
+#: footer.php:15
+msgid "الخدمات"
+msgstr ""
+
+#: footer.php:35
+msgid "روابط سريعة"
+msgstr ""
+
+#: footer.php:45
+msgid "معلومات الاتصال"
+msgstr ""
+
+#: footer.php:85
+msgid "جميع الحقوق محفوظة"
+msgstr ""
+
+#: footer.php:86
+msgid "تصميم وتطوير"
+msgstr ""
+
+#: footer.php:95
+msgid "العودة للأعلى"
+msgstr ""
+
+#: home.php:15
+msgid "خدماتنا"
+msgstr ""
+
+#: home.php:16
+msgid "ماذا نقدم لك؟"
+msgstr ""
+
+#: home.php:17
+msgid "برامج تدريبية مخصصة للنخبة"
+msgstr ""
+
+#: home.php:28
+msgid "منهجيتنا"
+msgstr ""
+
+#: home.php:29
+msgid "هندسة الأداء البدني"
+msgstr ""
+
+#: home.php:40
+msgid "رياضيونا"
+msgstr ""
+
+#: home.php:41
+msgid "أداء رياضيينا النخبة"
+msgstr ""
+
+#: home.php:52
+msgid "الباقات"
+msgstr ""
+
+#: home.php:53
+msgid "اختر الباقة المناسبة لك"
+msgstr ""
+
+#: index.php:22
+msgid "بواسطة"
+msgstr ""
+
+#: index.php:35
+msgid "التصنيفات:"
+msgstr ""
+
+#: index.php:46
+msgid "لا توجد مقالات لعرضها."
+msgstr ""
+
+#: 404.php:25
+msgid "عذراً! الصفحة غير موجودة"
+msgstr ""
+
+#: 404.php:26
+msgid "يبدو أنك قد ضللت الطريق. الصفحة التي تبحث عنها غير موجودة أو تم نقلها."
+msgstr ""
+
+#: 404.php:31
+msgid "العودة إلى الرئيسية"
+msgstr ""
+
+#: 404.php:34
+msgid "تواصل معنا"
+msgstr ""
+
+#: 404.php:39
+msgid "أو يمكنك البحث هنا:"
+msgstr ""
+
+#: search.php:18
+msgid "نتائج البحث عن:"
+msgstr ""
+
+#: search.php:65
+msgid "لم نعثر على نتائج"
+msgstr ""
+
+#: search.php:66
+msgid "جرب البحث بكلمات مختلفة."
+msgstr ""
+
+#: archive.php:48
+msgid "الأرشيف"
+msgstr ""
+
+#: archive.php:92
+msgid "اقرأ المزيد"
+msgstr ""
+
+#: single.php:118
+msgid "مشاركة:"
+msgstr ""
+
+#: single.php:160
+msgid "المقال السابق"
+msgstr ""
+
+#: single.php:163
+msgid "المقال التالي"
+msgstr ""
+
+#: inc/custom-post-types.php:18
+msgid "الرياضيون"
+msgstr ""
+
+#: inc/custom-post-types.php:19
+msgid "رياضي"
+msgstr ""
+
+#: inc/custom-post-types.php:20
+msgid "إضافة رياضي"
+msgstr ""
+
+#: inc/custom-post-types.php:58
+msgid "التقييمات"
+msgstr ""
+
+#: inc/custom-post-types.php:59
+msgid "تقييم"
+msgstr ""
+
+#: inc/custom-post-types.php:94
+msgid "الخدمات"
+msgstr ""
+
+#: inc/custom-post-types.php:95
+msgid "خدمة"
+msgstr ""
+
+#: inc/custom-post-types.php:130
+msgid "شهادات العملاء"
+msgstr ""
+
+#: inc/custom-post-types.php:131
+msgid "شهادة"
+msgstr ""
+
+#: inc/custom-post-types.php:163
+msgid "الأسئلة الشائعة"
+msgstr ""
+
+#: inc/custom-post-types.php:164
+msgid "سؤال"
+msgstr ""
+
+#: inc/woocommerce-config.php:83
+msgid "سلتك فارغة"
+msgstr ""
+
+#: inc/woocommerce-config.php:84
+msgid "لم تقم بإضافة أي منتجات إلى سلتك بعد."
+msgstr ""
+
+#: inc/woocommerce-config.php:85
+msgid "تسوق الآن"
+msgstr ""
+
+#: inc/woocommerce-config.php:101
+msgid "حقل مخصص"
+msgstr ""
+
+#: inc/woocommerce-config.php:102
+msgid "هذا حقل مخصص للمنتج"
+msgstr ""
+
+#: inc/performance.php:92
+msgid "غير مصرح بالوصول المباشر لهذا الملف."
+msgstr ""
+
+#: inc/security.php:80
+msgid "تحقق الأمان فشل."
+msgstr ""
+
+#: inc/security.php:80
+msgid "فشل"
+msgstr ""
+
+#: inc/security.php:104
+msgid "لقد تجاوزت الحد الأقصى لمحاولات تسجيل الدخول. الرجاء المحاولة بعد 10 دقائق."
+msgstr ""
+
+#: inc/security.php:119
+msgid "يجب تسجيل الدخول للوصول إلى REST API."
+msgstr ""
+
+#: components/button.php:53
+msgid "تواصل عبر واتساب"
+msgstr ""
+
+#: components/button.php:63
+msgid "أضف إلى السلة"
+msgstr ""
+
+#: components/card.php:30
+msgid "اكتشف المزيد"
+msgstr ""
+
+#: components/card.php:54
+msgid "اختر الباقة"
+msgstr ""
+
+#: template-parts/hero/hero-main.php:36
+msgid "ابدأ رحلتك"
+msgstr ""
+
+#: template-parts/hero/hero-main.php:39
+msgid "تواصل معنا"
+msgstr ""
+
+#: template-parts/hero/hero-main.php:47
+msgid "عميل محترف"
+msgstr ""
+
+#: template-parts/hero/hero-main.php:51
+msgid "رضا العملاء"
+msgstr ""
+
+#: template-parts/hero/hero-main.php:55
+msgid "سنة خبرة"
+msgstr ""
+
+#: template-parts/services/services-grid.php:19
+msgid "التدريب الحضوري"
+msgstr ""
+
+#: template-parts/services/services-grid.php:20
+msgid "باقات مخصصة للنخبة"
+msgstr ""
+
+#: template-parts/services/services-grid.php:25
+msgid "تقييمات الأداء"
+msgstr ""
+
+#: template-parts/services/services-grid.php:26
+msgid "تحليل علمي متطور"
+msgstr ""
+
+#: template-parts/services/services-grid.php:31
+msgid "برامج تغذية"
+msgstr ""
+
+#: template-parts/services/services-grid.php:32
+msgid "خطط غذائية مخصصة"
+msgstr ""
+
+#: template-parts/services/services-grid.php:37
+msgid "استشفاء رياضي"
+msgstr ""
+
+#: template-parts/services/services-grid.php:38
+msgid "تعافي سريع وآمن"
+msgstr ""
+
+#: template-parts/services/services-grid.php:66
+msgid "دخول البرنامج"
+msgstr ""
+
+#: template-parts/steps/methodology-steps.php:10
+msgid "التحليل الأولي"
+msgstr ""
+
+#: template-parts/steps/methodology-steps.php:11
+msgid "تحديد الأهداف الرياضية بناءً على مركزك ومستواك الحالي"
+msgstr ""
+
+#: template-parts/steps/methodology-steps.php:15
+msgid "التدريب الميداني"
+msgstr ""
+
+#: template-parts/steps/methodology-steps.php:16
+msgid "جلسات ميدانية تحاكي المباراة الواقعية"
+msgstr ""
+
+#: template-parts/steps/methodology-steps.php:20
+msgid "تحليل الأحمال"
+msgstr ""
+
+#: template-parts/steps/methodology-steps.php:21
+msgid "موازنة شدة التمرين مع مستوى التعب والإجهاد"
+msgstr ""
+
+#: template-parts/steps/methodology-steps.php:25
+msgid "جدول غذائي"
+msgstr ""
+
+#: template-parts/steps/methodology-steps.php:26
+msgid "خطة تغذية مخصصة لطاقة كافية وأداء أفضل"
+msgstr ""
+
+#: template-parts/steps/methodology-steps.php:30
+msgid "الوقاية والاستشفاء"
+msgstr ""
+
+#: template-parts/steps/methodology-steps.php:31
+msgid "بروتوكول وقائي وتقوية المفاصل والعضلات"
+msgstr ""
+
+#: template-parts/steps/methodology-steps.php:42
+msgid "5 خطوات علمية"
+msgstr ""
+
+#: template-parts/steps/methodology-steps.php:44
+msgid "نقل مستواك من الهاوي إلى المحترف"
+msgstr ""
+
+#: template-parts/athletes/athletes-gallery.php:96
+msgid "سنة"
+msgstr ""
+
+#: template-parts/athletes/athletes-gallery.php:126
+msgid "رياضي نموذج"
+msgstr ""
+
+#: template-parts/athletes/athletes-gallery.php:127
+msgid "لاعب خط وسط"
+msgstr ""
+
+#: template-parts/athletes/athletes-gallery.php:131
+msgid "أضف الرياضيين من لوحة التحكم ← الرياضيون"
+msgstr ""
+
+#: template-parts/packages/packages-grid.php:21
+msgid "باقة الانطلاق"
+msgstr ""
+
+#: template-parts/packages/packages-grid.php:22
+msgid "06 حصص تدريبية"
+msgstr ""
+
+#: template-parts/packages/packages-grid.php:24
+msgid "حصة تدريبية ميدانية مكثفة"
+msgstr ""
+
+#: template-parts/packages/packages-grid.php:25
+msgid "تحليل الأحمال البدنية اليومي"
+msgstr ""
+
+#: template-parts/packages/packages-grid.php:26
+msgid "جدول غذائي رياضي مخصص"
+msgstr ""
+
+#: template-parts/packages/packages-grid.php:31
+msgid "باقة الاحتراف"
+msgstr ""
+
+#: template-parts/packages/packages-grid.php:32
+msgid "12 حصة تدريبية شاملة"
+msgstr ""
+
+#: template-parts/packages/packages-grid.php:36
+msgid "حصص تدريبية ميدانية أسبوعية"
+msgstr ""
+
+#: template-parts/packages/packages-grid.php:37
+msgid "نظام تتبع الأحمال الرقمي"
+msgstr ""
+
+#: template-parts/packages/packages-grid.php:38
+msgid "برنامج غذائي متكامل حسب الهدف"
+msgstr ""
+
+#: template-parts/packages/packages-grid.php:39
+msgid "بروتوكول استشفاء ووقاية شامل"
+msgstr ""
+
+#: template-parts/packages/packages-grid.php:44
+msgid "باقة النخبة"
+msgstr ""
+
+#: template-parts/packages/packages-grid.php:45
+msgid "24 حصة تدريبية"
+msgstr ""
+
+#: template-parts/packages/packages-grid.php:47
+msgid "اختبارات بدنية كاملة"
+msgstr ""
+
+#: template-parts/packages/packages-grid.php:48
+msgid "برنامج إعداد بدني طويل المدى"
+msgstr ""
+
+#: template-parts/packages/packages-grid.php:49
+msgid "متابعة أسبوعية مع كوتش بندر"
+msgstr ""
+
+#: template-parts/packages/packages-grid.php:59
+msgid "الأكثر طلباً"
+msgstr ""
+
+#: template-parts/packages/packages-grid.php:77
+msgid "ريال"
+msgstr ""
+
+#: template-parts/packages/packages-grid.php:80
+msgid "اطلب الباقة"
+msgstr ""
+
+#: template-parts/evaluation/evaluation-section.php:12
+msgid "VO2 Max (التحمل)"
+msgstr ""
+
+#: template-parts/evaluation/evaluation-section.php:13
+msgid "قياس كفاءة القلب والرئتين للحفاظ على شدة اللعب طوال المباراة."
+msgstr ""
+
+#: template-parts/evaluation/evaluation-section.php:17
+msgid "التسارع والسرعة"
+msgstr ""
+
+#: template-parts/evaluation/evaluation-section.php:18
+msgid "تحليل بروفايل السرعة والقوة الانفجارية في الانطلاقة الأولى."
+msgstr ""
+
+#: template-parts/evaluation/evaluation-section.php:22
+msgid "الرشاقة وتغيير الاتجاه"
+msgstr ""
+
+#: template-parts/evaluation/evaluation-section.php:23
+msgid "قياس قدرتك على المناورة والتحكم في مركز ثقل الجسم."
+msgstr ""
+
+#: template-parts/evaluation/evaluation-section.php:38
+msgid "تقييمات احترافية"
+msgstr ""
+
+#: template-parts/evaluation/evaluation-section.php:40
+msgid "تحليل علمي متطور باستخدام أحدث التقنيات"
+msgstr ""
+
+#: template-parts/evaluation/evaluation-section.php:79
+msgid "باقة الاختبارات الاحترافية"
+msgstr ""
+
+#: template-parts/evaluation/evaluation-section.php:86
+msgid "/ تقييم"
+msgstr ""
+
+#: template-parts/evaluation/evaluation-section.php:90
+msgid "التقييمات البدنية الشاملة لجميع الوظائف الحركية"
+msgstr ""
+
+#: template-parts/evaluation/evaluation-section.php:94
+msgid "تقرير تقني مفصل (PDF) جاهز للتقديم للأندية"
+msgstr ""
+
+#: template-parts/evaluation/evaluation-section.php:98
+msgid "مقارنة مستواك الفعلي مع معايير اللاعبين النخبة"
+msgstr ""
+
+#: template-parts/evaluation/evaluation-section.php:102
+msgid "جلسة استشارية خاصة لتحليل نقاط الضعف"
+msgstr ""
+
+#: template-parts/evaluation/evaluation-section.php:106
+msgid "احجز موعد التقييم الآن"
+msgstr ""
+
+#: template-parts/cta/cta-section.php:11
+msgid "جاهز للانتقال إلى المستوى التالي؟"
+msgstr ""
+
+#: template-parts/cta/cta-section.php:12
+msgid "انضم إلى نخبة الرياضيين الذين يثقون بتدريبات كوتش بندر"
+msgstr ""
+
+#: template-parts/cta/cta-section.php:13
+msgid "ابدأ الآن"
+msgstr ""
+
+#: template-parts/cta/cta-section.php:19
+msgid "احجز مكانك الآن"
+msgstr ""
+
+#: template-parts/cta/cta-section.php:37
+msgid "استكشف الباقات"
+msgstr ""
+
+#: template-parts/cta/cta-section.php:46
+msgid "دعم فوري"
+msgstr ""
+
+#: template-parts/cta/cta-section.php:52
+msgid "جدول مرن"
+msgstr ""
+
+#: template-parts/cta/cta-section.php:58
+msgid "نتائج مضمونة"
+msgstr ""

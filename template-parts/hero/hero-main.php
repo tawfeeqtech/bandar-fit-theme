@@ -1,42 +1,191 @@
-<section class="min-h-screen relative flex items-center justify-center text-center">
-    <div class="absolute inset-0 z-0">
-        <?php 
-        $hero_image = get_theme_mod('hero_image', BANDAR_URI . '/assets/images/hero-default.jpg');
-        echo '<img src="' . esc_url($hero_image) . '" class="w-full h-full object-cover opacity-20" alt="Football Hero">';
-        ?>
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-dark/95"></div>
+<?php
+/**
+ * القسم الرئيسي (Hero Section)
+ * @package BandarFit
+ */
+
+// الحصول على الإعدادات من ACF أو Customizer
+$hero_title = get_theme_mod('hero_title', 'إعدادك بدنياً مع <span class="gold-text gold-glow">كوتش بندر</span>');
+$hero_subtitle = get_theme_mod('hero_subtitle', '"المباراة تُكسب في صالة التمارين قبل أن تبدأ في العشب"');
+$hero_tagline = get_theme_mod('hero_tagline', 'Football Performance Architecture');
+$hero_image = get_theme_mod('hero_image', BANDAR_IMAGES_URI . '/hero-default.jpg');
+?>
+
+<section class="hero-main">
+    <div class="hero-background">
+        <?php if ($hero_image) : ?>
+            <img src="<?php echo esc_url($hero_image); ?>" 
+                 alt="<?php esc_attr_e('خلفية الهيرو', 'bandar-fit'); ?>" 
+                 class="hero-bg-image">
+        <?php endif; ?>
+        <div class="hero-overlay"></div>
     </div>
 
-    <div class="relative z-10 px-6 text-center max-w-4xl mx-auto">
-        <span class="text-brand font-black text-[10px] uppercase tracking-[0.6em] mb-4 block italic">
-            <?php echo get_theme_mod('hero_tagline', 'Football Performance Architecture'); ?>
-        </span>
-        
-        <h1 class="text-4xl md:text-6xl font-black italic mb-6 leading-[1.1] tracking-tighter uppercase">
-            <?php echo get_theme_mod('hero_title', 'إعدادك بدنياً مع <span class="text-brand gold-glow">كوتش بندر</span>'); ?>
-        </h1>
-        
-        <p class="text-white/40 text-base md:text-lg mb-12 max-w-xl mx-auto leading-relaxed italic">
-            <?php echo get_theme_mod('hero_subtitle', '"المباراة تُكسب في صالة التمارين قبل أن تبدأ في العشب"'); ?>
-        </p>
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-inner">
+                <span class="hero-tagline"><?php echo esc_html($hero_tagline); ?></span>
+                
+                <h1 class="hero-title">
+                    <?php echo wp_kses_post($hero_title); ?>
+                </h1>
+                
+                <p class="hero-subtitle">
+                    <?php echo esc_html($hero_subtitle); ?>
+                </p>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-            <?php
-            // جلب الخدمات من CPT
-            $services = get_posts(['post_type' => 'service', 'posts_per_page' => 2]);
-            foreach ($services as $index => $service):
-                $icon = get_post_meta($service->ID, 'service_icon', true) ?: ($index === 0 ? 'medal' : 'clipboard-check');
-            ?>
-                <div onclick="location.href='<?php echo get_permalink($service->ID); ?>'" 
-                     class="service-card p-10 rounded-[2.5rem] cursor-pointer group flex flex-col items-center bg-surface border border-white/5 hover:border-brand transition-all hover:-translate-y-2">
-                    <i data-lucide="<?php echo esc_attr($icon); ?>" class="text-brand w-10 h-10 mb-6 group-hover:scale-110 transition-all"></i>
-                    <h3 class="text-2xl font-black italic mb-2 uppercase"><?php echo esc_html($service->post_title); ?></h3>
-                    <p class="text-white/40 text-xs mb-6 uppercase"><?php echo esc_html($service->post_excerpt); ?></p>
-                    <span class="text-brand text-[10px] font-black uppercase tracking-widest flex items-center gap-2 italic">
-                        دخول البرنامج <i data-lucide="arrow-left" class="w-3 h-3"></i>
-                    </span>
+                <div class="hero-buttons">
+                    <a href="#services" class="btn btn-primary btn-large">
+                        <?php _e('ابدأ رحلتك', 'bandar-fit'); ?>
+                    </a>
+                    <a href="<?php echo bandar_get_whatsapp_url(); ?>" class="btn btn-outline btn-large">
+                        <?php _e('تواصل معنا', 'bandar-fit'); ?>
+                    </a>
                 </div>
-            <?php endforeach; ?>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label"><?php _e('عميل محترف', 'bandar-fit'); ?></span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">98%</span>
+                        <span class="stat-label"><?php _e('رضا العملاء', 'bandar-fit'); ?></span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">15+</span>
+                        <span class="stat-label"><?php _e('سنة خبرة', 'bandar-fit'); ?></span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
+
+<style>
+.hero-main {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero-background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.hero-bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.4);
+    animation: heroKenburns 20s infinite alternate ease-in-out;
+}
+
+@keyframes heroKenburns {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.15); }
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 0%, var(--brand-dark) 95%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    padding: 120px 0 80px;
+    text-align: center;
+}
+
+.hero-inner {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.hero-tagline {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--brand-primary);
+    margin-bottom: 20px;
+}
+
+.hero-title {
+    font-size: 48px;
+    font-weight: 900;
+    font-style: italic;
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+    .hero-title {
+        font-size: 72px;
+    }
+}
+
+.hero-subtitle {
+    font-size: 18px;
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 60px;
+    flex-wrap: wrap;
+}
+
+.hero-stats {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--brand-primary);
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 32px;
+    }
+    .hero-stats {
+        gap: 20px;
+    }
+    .stat-number {
+        font-size: 24px;
+    }
+}
+</style>
