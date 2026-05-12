@@ -30,10 +30,6 @@ require_once BANDAR_DIR . '/inc/walker-nav-menu.php';
 require_once BANDAR_DIR . '/inc/custom-post-types.php';
 require_once BANDAR_DIR . '/inc/acf-fields.php';
 
-// ملفات WooCommerce
-if (class_exists('WooCommerce')) {
-    require_once BANDAR_DIR . '/inc/woocommerce-config.php';
-}
 
 // ملفات التخصيص والأداء
 require_once BANDAR_DIR . '/inc/customizer.php';
@@ -85,6 +81,20 @@ function bandar_get_social_links() {
         'youtube' => get_theme_mod('social_youtube', '#'),
     ];
 }
+
+/**
+ * Enqueue customizer preview scripts
+ */
+function bandar_customizer_preview_scripts() {
+    wp_enqueue_script(
+        'bandar-customizer-preview', 
+        get_template_directory_uri() . '/inc/customizer-preview.js', 
+        ['jquery', 'customize-preview'], 
+        '', 
+        true
+    );
+}
+add_action('customize_preview_init', 'bandar_customizer_preview_scripts');
 
 /**
  * التحقق من الصفحة النشطة

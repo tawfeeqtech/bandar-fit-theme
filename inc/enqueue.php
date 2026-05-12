@@ -28,17 +28,6 @@ function bandar_enqueue_scripts() {
         BANDAR_VERSION
     );
     
-    // ============================================
-    // تحميل CSS الخاص بـ WooCommerce
-    // ============================================
-    if (class_exists('WooCommerce')) {
-        wp_enqueue_style(
-            'bandar-woocommerce',
-            BANDAR_CSS_URI . '/woocommerce.css',
-            ['bandar-main'],
-            BANDAR_VERSION
-        );
-    }
     
     // ============================================
     // تحميل CSS المتجاوب
@@ -84,16 +73,6 @@ function bandar_enqueue_scripts() {
         true
     );
     
-    // ملف السلة (WooCommerce)
-    if (class_exists('WooCommerce') && is_cart()) {
-        wp_enqueue_script(
-            'bandar-cart',
-            BANDAR_JS_URI . '/cart.js',
-            ['jquery', 'wc-cart'],
-            BANDAR_VERSION,
-            true
-        );
-    }
     
     // ============================================
     // تمرير البيانات إلى JavaScript

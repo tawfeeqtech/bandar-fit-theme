@@ -1,116 +1,86 @@
 <?php
 /**
- * شبكة الباقات (منتجات WooCommerce)
+ * شبكة الباقات
  * @package BandarFit
  */
 
-// جلب الباقات من WooCommerce
-if (class_exists('WooCommerce')) {
-    $packages = wc_get_products([
-        'limit' => 3,
-        'category' => ['packages'],
-        'orderby' => 'menu_order',
-        'order' => 'ASC'
-    ]);
-}
-
-// إذا لم توجد منتجات، عرض باقات افتراضية
-if (empty($packages)) {
-    $default_packages = [
+// جلب الباقات من قاعدة البيانات
+$packages_query = new WP_Query([
+    'post_type' => 'package',
+    'posts_per_page' => 3,
+    'meta_query' => [
+        'relation' => 'OR',
         [
-            'title' => __('باقة الانطلاق', 'bandar-fit'),
-            'subtitle' => __('06 حصص تدريبية', 'bandar-fit'),
-            'price' => '1,200',
-            'features' => [
-                __('حصة تدريبية ميدانية مكثفة', 'bandar-fit'),
-                __('تحليل الأحمال البدنية اليومي', 'bandar-fit'),
-                __('جدول غذائي رياضي مخصص', 'bandar-fit'),
-            ]
+            'key' => '_package_style',
+            'value' => 'standard',
         ],
         [
-            'title' => __('باقة الاحتراف', 'bandar-fit'),
-            'subtitle' => __('12 حصة تدريبية شاملة', 'bandar-fit'),
-            'price' => '1,900',
-            'featured' => true,
-            'features' => [
-                __('حصص تدريبية ميدانية أسبوعية', 'bandar-fit'),
-                __('نظام تتبع الأحمال الرقمي', 'bandar-fit'),
-                __('برنامج غذائي متكامل حسب الهدف', 'bandar-fit'),
-                __('بروتوكول استشفاء ووقاية شامل', 'bandar-fit'),
-            ]
-        ],
-        [
-            'title' => __('باقة النخبة', 'bandar-fit'),
-            'subtitle' => __('24 حصة تدريبية', 'bandar-fit'),
-            'price' => '3,399',
-            'features' => [
-                __('اختبارات بدنية كاملة', 'bandar-fit'),
-                __('برنامج إعداد بدني طويل المدى', 'bandar-fit'),
-                __('متابعة أسبوعية مع كوتش بندر', 'bandar-fit'),
-            ]
+            'key' => '_package_style',
+            'compare' => 'NOT EXISTS',
         ]
-    ];
-    ?>
-    <div class="packages-grid">
-        <?php foreach ($default_packages as $package) : ?>
-            <div class="price-card <?php echo isset($package['featured']) ? 'featured' : ''; ?>">
-                <?php if (isset($package['featured'])) : ?>
-                    <div class="price-card-badge"><?php _e('الأكثر طلباً', 'bandar-fit'); ?></div>
-                <?php endif; ?>
-                <h3 class="price-card-title"><?php echo esc_html($package['title']); ?></h3>
-                <p class="price-card-subtitle"><?php echo esc_html($package['subtitle']); ?></p>
-                <div class="price-amount">
-                    <span class="price-number"><?php echo esc_html($package['price']); ?></span>
-                    <span class="price-currency"><?php _e('ريال', 'bandar-fit'); ?></span>
-                </div>
-                <ul class="price-features">
-                    <?php foreach ($package['features'] as $feature) : ?>
-                        <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="20 6 9 17 4 12"/>
-                            </svg>
-                            <?php echo esc_html($feature); ?>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-                <a href="<?php echo bandar_get_whatsapp_url(); ?>" class="btn <?php echo isset($package['featured']) ? 'btn-primary' : 'btn-secondary'; ?> btn-block">
-                    <?php _e('اطلب الباقة', 'bandar-fit'); ?>
-                </a>
-            </div>
-        <?php endforeach; ?>
-    </div>
-    <?php
-    return;
-}
+    ],
+    'orderby' => 'menu_order',
+    'order' => 'ASC'
+]);
+
+if ($packages_query->have_posts()) :
 ?>
 
 <div class="packages-grid">
-    <?php foreach ($packages as $index => $product) : 
-        $is_featured = $index === 1; // جعل المنتج الثاني مميزاً
+    <?php while ($packages_query->have_posts()) : $packages_query->the_post(); 
+        $post_id = get_the_ID();
+        $subtitle = get_post_meta($post_id, '_package_subtitle', true);
+        $price = get_post_meta($post_id, '_package_price', true);
+        $currency = get_post_meta($post_id, '_package_currency', true) ?: 'ريال';
+        $button_text = get_post_meta($post_id, '_package_button_text', true) ?: 'اطلب الباقة';
+        $is_featured = get_post_meta($post_id, '_package_is_featured', true) === '1';
+        $features_raw = get_post_meta($post_id, '_package_features', true);
+        $features = explode("\n", str_replace("\r", "", $features_raw));
     ?>
         <div class="price-card <?php echo $is_featured ? 'featured' : ''; ?>">
             <?php if ($is_featured) : ?>
                 <div class="price-card-badge"><?php _e('الأكثر طلباً', 'bandar-fit'); ?></div>
             <?php endif; ?>
-            
-            <h3 class="price-card-title"><?php echo esc_html($product->get_name()); ?></h3>
-            <p class="price-card-subtitle"><?php echo esc_html($product->get_short_description()); ?></p>
-            
+            <h3 class="price-card-title"><?php the_title(); ?></h3>
+            <p class="price-card-subtitle"><?php echo esc_html($subtitle); ?></p>
             <div class="price-amount">
-                <span class="price-number"><?php echo esc_html(number_format($product->get_price())); ?></span>
-                <span class="price-currency"><?php echo esc_html(get_woocommerce_currency_symbol()); ?></span>
+                <span class="price-number"><?php echo esc_html($price); ?></span>
+                <span class="price-currency"><?php echo esc_html($currency); ?></span>
             </div>
-            
-            <div class="price-description">
-                <?php echo wp_kses_post($product->get_description()); ?>
-            </div>
-            
-            <a href="<?php echo esc_url($product->add_to_cart_url()); ?>" class="btn <?php echo $is_featured ? 'btn-primary' : 'btn-secondary'; ?> btn-block">
-                <?php _e('اطلب الباقة', 'bandar-fit'); ?>
+            <ul class="price-features">
+                <?php foreach ($features as $feature) : if (trim($feature)) : ?>
+                    <li>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <?php echo esc_html(trim($feature)); ?>
+                    </li>
+                <?php endif; endforeach; ?>
+            </ul>
+            <a href="<?php echo bandar_get_whatsapp_url(); ?>" class="btn <?php echo $is_featured ? 'btn-primary' : 'btn-secondary'; ?> btn-block">
+                <?php echo esc_html($button_text); ?>
             </a>
         </div>
-    <?php endforeach; ?>
+    <?php endwhile; wp_reset_postdata(); ?>
 </div>
+
+<?php else : ?>
+    <!-- باقات افتراضية في حال عدم وجود محتوى -->
+    <div class="packages-grid">
+        <div class="price-card">
+            <h3 class="price-card-title">باقة الانطلاق</h3>
+            <p class="price-card-subtitle">06 حصص تدريبية</p>
+            <div class="price-amount">
+                <span class="price-number">1,200</span>
+                <span class="price-currency">ريال</span>
+            </div>
+            <ul class="price-features">
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> حصة تدريبية ميدانية مكثفة</li>
+            </ul>
+            <a href="<?php echo bandar_get_whatsapp_url(); ?>" class="btn btn-secondary btn-block">اطلب الباقة</a>
+        </div>
+    </div>
+<?php endif; ?>
 
 <style>
 .packages-grid {

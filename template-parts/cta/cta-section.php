@@ -25,15 +25,9 @@ $cta_button_text = get_theme_mod('cta_button_text', __('ابدأ الآن', 'ban
                             <polyline points="12 5 19 12 12 19"/>
                         </svg>
                     </a>
-                    <?php if (class_exists('WooCommerce') && wc_get_page_id('shop')) : ?>
-                    <a href="<?php echo get_permalink(wc_get_page_id('shop')); ?>" class="btn btn-outline btn-large">
+                    <a href="<?php echo home_url('/packages'); ?>" class="btn btn-outline btn-large">
                         <?php _e('استكشف الباقات', 'bandar-fit'); ?>
                     </a>
-                    <?php else : ?>
-                    <a href="#" class="btn btn-outline btn-large" onclick="window.location.href='<?php echo home_url('/contact'); ?>'; return false;">
-                        <?php _e('استكشف الباقات', 'bandar-fit'); ?>
-                    </a>
-                    <?php endif; ?>
                 </div>
 
                 <div class="cta-features">

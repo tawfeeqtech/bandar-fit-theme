@@ -11,11 +11,6 @@ function bandar_theme_setup() {
     // دعم RTL (العربية)
     add_theme_support('rtl');
     
-    // دعم WooCommerce
-    add_theme_support('woocommerce');
-    add_theme_support('wc-product-gallery-zoom');
-    add_theme_support('wc-product-gallery-lightbox');
-    add_theme_support('wc-product-gallery-slider');
     
     // دعم الصور المصغرة
     add_theme_support('post-thumbnails');

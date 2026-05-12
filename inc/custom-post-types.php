@@ -309,6 +309,81 @@ function bandar_register_post_types() {
         'rewrite'               => false,
         'query_var'             => false,
     ]);
+
+    // ============================================
+    // 7. CPT: Evaluation Services (خدمات التقييم)
+    // ============================================
+    register_post_type('evaluation_service', [
+        'labels' => [
+            'name'               => __('خدمات التقييم', 'bandar-fit'),
+            'singular_name'      => __('خدمة تقييم', 'bandar-fit'),
+            'add_new'            => __('إضافة خدمة', 'bandar-fit'),
+            'add_new_item'       => __('إضافة خدمة تقييم جديدة', 'bandar-fit'),
+            'edit_item'          => __('تعديل الخدمة', 'bandar-fit'),
+            'new_item'           => __('خدمة جديدة', 'bandar-fit'),
+            'view_item'          => __('عرض الخدمة', 'bandar-fit'),
+            'search_items'       => __('بحث عن خدمات', 'bandar-fit'),
+            'not_found'          => __('لا يوجد خدمات', 'bandar-fit'),
+            'menu_name'          => __('خدمات التقييم', 'bandar-fit'),
+        ],
+        'public'                => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_position'         => 11,
+        'menu_icon'             => 'dashicons-clipboard',
+        'supports'              => ['title', 'editor', 'custom-fields'],
+        'show_in_rest'          => true,
+    ]);
+
+    // ============================================
+    // 8. CPT: Lab Album (ألبوم المختبر)
+    // ============================================
+    register_post_type('lab_album', [
+        'labels' => [
+            'name'               => __('ألبوم المختبر', 'bandar-fit'),
+            'singular_name'      => __('صورة مختبر', 'bandar-fit'),
+            'add_new'            => __('إضافة صورة', 'bandar-fit'),
+            'add_new_item'       => __('إضافة صورة جديدة للألبوم', 'bandar-fit'),
+            'edit_item'          => __('تعديل الصورة', 'bandar-fit'),
+            'new_item'           => __('صورة جديدة', 'bandar-fit'),
+            'view_item'          => __('عرض الصورة', 'bandar-fit'),
+            'search_items'       => __('بحث في الألبوم', 'bandar-fit'),
+            'not_found'          => __('لا يوجد صور', 'bandar-fit'),
+            'menu_name'          => __('ألبوم المختبر', 'bandar-fit'),
+        ],
+        'public'                => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_position'         => 12,
+        'menu_icon'             => 'dashicons-images-alt2',
+        'supports'              => ['title', 'thumbnail'],
+        'show_in_rest'          => true,
+    ]);
+    
+    // ============================================
+    // 9. CPT: Packages (الباقات)
+    // ============================================
+    register_post_type('package', [
+        'labels' => [
+            'name'               => __('الباقات', 'bandar-fit'),
+            'singular_name'      => __('باقة', 'bandar-fit'),
+            'add_new'            => __('إضافة باقة', 'bandar-fit'),
+            'add_new_item'       => __('إضافة باقة جديدة', 'bandar-fit'),
+            'edit_item'          => __('تعديل الباقة', 'bandar-fit'),
+            'new_item'           => __('باقة جديدة', 'bandar-fit'),
+            'view_item'          => __('عرض الباقة', 'bandar-fit'),
+            'search_items'       => __('بحث عن باقات', 'bandar-fit'),
+            'not_found'          => __('لا يوجد باقات', 'bandar-fit'),
+            'menu_name'          => __('الباقات', 'bandar-fit'),
+        ],
+        'public'                => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_position'         => 13,
+        'menu_icon'             => 'dashicons-tag',
+        'supports'              => ['title', 'editor', 'thumbnail', 'custom-fields'],
+        'show_in_rest'          => true,
+    ]);
     
     // Flush rewrite rules on activation
     flush_rewrite_rules();
@@ -386,3 +461,136 @@ function bandar_save_athlete_meta($post_id) {
     }
 }
 add_action('save_post_athlete', 'bandar_save_athlete_meta');
+
+/**
+ * إضافة ميتا بوكس لأيقونة خدمة التقييم
+ */
+function bandar_add_eval_service_meta_boxes() {
+    add_meta_box(
+        'eval_service_details',
+        __('تفاصيل الخدمة', 'bandar-fit'),
+        'bandar_eval_service_callback',
+        'evaluation_service',
+        'normal',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'bandar_add_eval_service_meta_boxes');
+
+function bandar_eval_service_callback($post) {
+    wp_nonce_field('eval_service_meta_box', 'eval_service_meta_box_nonce');
+    $icon = get_post_meta($post->ID, '_service_icon', true);
+    ?>
+    <div style="margin-bottom: 15px;">
+        <label for="service_icon" style="display: block; font-weight: bold; margin-bottom: 5px;"><?php _e('اسم الأيقونة (Lucide)', 'bandar-fit'); ?></label>
+        <input type="text" id="service_icon" name="service_icon" value="<?php echo esc_attr($icon); ?>" style="width: 100%; padding: 8px;">
+        <p style="font-size: 12px; color: #666; margin-top: 5px;"><?php _e('أمثلة: lungs, timer, move, zap, heart, activity', 'bandar-fit'); ?></p>
+    </div>
+    <?php
+}
+
+function bandar_save_eval_service_meta($post_id) {
+    if (!isset($_POST['eval_service_meta_box_nonce']) || !wp_verify_nonce($_POST['eval_service_meta_box_nonce'], 'eval_service_meta_box')) return;
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (!current_user_can('edit_post', $post_id)) return;
+    
+    if (isset($_POST['service_icon'])) {
+        update_post_meta($post_id, '_service_icon', sanitize_text_field($_POST['service_icon']));
+    }
+}
+add_action('save_post_evaluation_service', 'bandar_save_eval_service_meta');
+
+/**
+ * إضافة ميتا بوكس للباقات
+ */
+function bandar_add_package_meta_boxes() {
+    add_meta_box(
+        'package_details',
+        __('تفاصيل الباقة', 'bandar-fit'),
+        'bandar_package_callback',
+        'package',
+        'normal',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'bandar_add_package_meta_boxes');
+
+function bandar_package_callback($post) {
+    wp_nonce_field('package_meta_box', 'package_meta_box_nonce');
+    
+    $subtitle = get_post_meta($post->ID, '_package_subtitle', true);
+    $price = get_post_meta($post->ID, '_package_price', true);
+    $currency = get_post_meta($post->ID, '_package_currency', true) ?: 'ريال';
+    $button_text = get_post_meta($post->ID, '_package_button_text', true) ?: 'اطلب الباقة';
+    $is_featured = get_post_meta($post->ID, '_package_is_featured', true);
+    $package_style = get_post_meta($post->ID, '_package_style', true) ?: 'standard';
+    $features = get_post_meta($post->ID, '_package_features', true);
+    ?>
+    <div style="margin-bottom: 15px;">
+        <label for="package_subtitle" style="display: block; font-weight: bold; margin-bottom: 5px;"><?php _e('العنوان الفرعي', 'bandar-fit'); ?></label>
+        <input type="text" id="package_subtitle" name="package_subtitle" value="<?php echo esc_attr($subtitle); ?>" style="width: 100%; padding: 8px;">
+        <p style="font-size: 12px; color: #666; margin-top: 5px;"><?php _e('مثال: 06 حصص تدريبية', 'bandar-fit'); ?></p>
+    </div>
+
+    <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+        <div style="flex: 1;">
+            <label for="package_price" style="display: block; font-weight: bold; margin-bottom: 5px;"><?php _e('السعر', 'bandar-fit'); ?></label>
+            <input type="text" id="package_price" name="package_price" value="<?php echo esc_attr($price); ?>" style="width: 100%; padding: 8px;">
+        </div>
+        <div style="flex: 1;">
+            <label for="package_currency" style="display: block; font-weight: bold; margin-bottom: 5px;"><?php _e('العملة', 'bandar-fit'); ?></label>
+            <input type="text" id="package_currency" name="package_currency" value="<?php echo esc_attr($currency); ?>" style="width: 100%; padding: 8px;">
+        </div>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label for="package_button_text" style="display: block; font-weight: bold; margin-bottom: 5px;"><?php _e('نص الزر', 'bandar-fit'); ?></label>
+        <input type="text" id="package_button_text" name="package_button_text" value="<?php echo esc_attr($button_text); ?>" style="width: 100%; padding: 8px;">
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label for="package_style" style="display: block; font-weight: bold; margin-bottom: 5px;"><?php _e('نمط البطاقة', 'bandar-fit'); ?></label>
+        <select id="package_style" name="package_style" style="width: 100%; padding: 8px;">
+            <option value="standard" <?php selected($package_style, 'standard'); ?>><?php _e('بطاقة قياسية (3 في الصف)', 'bandar-fit'); ?></option>
+            <option value="premium" <?php selected($package_style, 'premium'); ?>><?php _e('بطاقة كبيرة (باقة التقييم)', 'bandar-fit'); ?></option>
+        </select>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label style="font-weight: bold;">
+            <input type="checkbox" name="package_is_featured" value="1" <?php checked($is_featured, '1'); ?>>
+            <?php _e('تمييز هذه الباقة (الأكثر طلباً)', 'bandar-fit'); ?>
+        </label>
+    </div>
+
+    <div>
+        <label for="package_features" style="display: block; font-weight: bold; margin-bottom: 5px;"><?php _e('المميزات (ميزة في كل سطر)', 'bandar-fit'); ?></label>
+        <textarea id="package_features" name="package_features" style="width: 100%; padding: 8px; min-height: 120px;"><?php echo esc_textarea($features); ?></textarea>
+        <p style="font-size: 12px; color: #666; margin-top: 5px;"><?php _e('اكتب كل ميزة في سطر منفصل ليتم عرضها بشكل قائمة.', 'bandar-fit'); ?></p>
+    </div>
+    <?php
+}
+
+function bandar_save_package_meta($post_id) {
+    if (!isset($_POST['package_meta_box_nonce']) || !wp_verify_nonce($_POST['package_meta_box_nonce'], 'package_meta_box')) return;
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (!current_user_can('edit_post', $post_id)) return;
+    
+    $fields = [
+        'package_subtitle',
+        'package_price',
+        'package_currency',
+        'package_button_text',
+        'package_style',
+        'package_features'
+    ];
+    
+    foreach ($fields as $field) {
+        if (isset($_POST[$field])) {
+            update_post_meta($post_id, '_' . $field, sanitize_textarea_field($_POST[$field]));
+        }
+    }
+    
+    update_post_meta($post_id, '_package_is_featured', isset($_POST['package_is_featured']) ? '1' : '0');
+}
+add_action('save_post_package', 'bandar_save_package_meta');

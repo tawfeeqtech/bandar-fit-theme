@@ -3,7 +3,7 @@ Theme Name: BANDAR FIT
 Theme URI: https://bandar-fit.com
 Author: BANDAR Performance Architecture
 Author URI: https://bandar-fit.com
-Description: ثيم احترافي للاعبين النخبة - إعداد بدني وتقييم أداء رياضي مع تكامل كامل مع WooCommerce
+Description: ثيم احترافي للاعبين النخبة - إعداد بدني وتقييم أداء رياضي
 Version: 1.0.0
 License: GPL v2 or later
 Text Domain: bandar-fit
@@ -11,8 +11,6 @@ Domain Path: /languages
 Requires at least: 6.0
 Requires PHP: 7.4
 Tested up to: 6.4
-WC requires at least: 7.0
-WC tested up to: 8.0
 */
 
 /* ============================================
@@ -27,8 +25,7 @@ WC tested up to: 8.0
    7. Cards & Components
    8. Buttons & CTAs
    9. Forms
-   10. WooCommerce Styles
-   11. Animations
+   10. Animations
    12. Utilities
    13. Responsive Breakpoints
    ============================================ */
@@ -762,7 +759,6 @@ h4, .h4 {
 .whatsapp-float {
     position: fixed;
     bottom: var(--spacing-6);
-    right: var(--spacing-6);
     width: 60px;
     height: 60px;
     background-color: #25D366;
@@ -773,10 +769,13 @@ h4, .h4 {
     z-index: var(--z-toast);
     transition: all var(--transition-base);
     animation: pulse-green 2s infinite;
+    color: #FFF;
+    box-shadow: 2px 2px 15px rgba(0,0,0,0.3);
 }
 
 .whatsapp-float:hover {
     transform: scale(1.1);
+    color: #FFF;
 }
 
 @keyframes pulse-green {
@@ -823,69 +822,6 @@ h4, .h4 {
     box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.1);
 }
 
-/* 10. WooCommerce Styles */
-.woocommerce .products {
-    display: grid;
-    gap: var(--spacing-6);
-}
-
-@media (min-width: 768px) {
-    .woocommerce .products {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (min-width: 1024px) {
-    .woocommerce .products {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-.woocommerce .product {
-    background: var(--bg-secondary);
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-}
-
-.woocommerce .product img {
-    width: 100%;
-    height: auto;
-    transition: transform var(--transition-base);
-}
-
-.woocommerce .product:hover img {
-    transform: scale(1.05);
-}
-
-.woocommerce .product h2 {
-    font-size: var(--font-size-lg);
-    padding: var(--spacing-4);
-}
-
-.woocommerce .price {
-    color: var(--brand-primary);
-    font-weight: 700;
-    padding: 0 var(--spacing-4);
-}
-
-.woocommerce .add_to_cart_button {
-    display: inline-block;
-    margin: var(--spacing-4);
-    padding: var(--spacing-2) var(--spacing-4);
-    background: var(--brand-primary);
-    color: var(--brand-dark);
-    border-radius: var(--radius-md);
-    text-decoration: none;
-    font-weight: 600;
-}
-
-/* Cart & Checkout */
-.woocommerce-cart-form,
-.woocommerce-checkout {
-    background: var(--bg-secondary);
-    padding: var(--spacing-6);
-    border-radius: var(--radius-xl);
-}
 
 /* 11. Animations */
 @keyframes fadeIn {

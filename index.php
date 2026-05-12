@@ -151,7 +151,7 @@ get_header();
     </div>
 
     <!-- زر واتساب العائم -->
-    <a href="https://wa.me/966500000000" target="_blank" class="whatsapp-float" title="تواصل معنا عبر واتساب">
+    <a href="<?php echo esc_url(bandar_get_whatsapp_url()); ?>" target="_blank" class="whatsapp-float" title="تواصل معنا عبر واتساب">
         <svg class="w-8 h-8 fill-current" viewBox="0 0 448 512">
             <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.7 17.8 69.4 27.2 106.2 27.2 122.4 0 222-99.6 222-222 0-59.3-23-115.1-65-157.1zM223.9 446.3c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 365.9l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.5-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 54 81.2 54 130.4 0 101.7-82.8 184.5-184.5 184.5zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.5-2.8-23.2-8.5-44.2-27.1-16.4-14.6-27.4-32.7-30.6-38.2-3.2-5.5-.3-8.5 2.5-11.2 2.5-2.6 5.5-6.5 8.3-9.7 2.8-3.2 3.7-5.5 5.6-9.2 1.9-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.2 5.8 23.5 9.2 31.5 11.8 13.3 4.2 25.4 3.6 35 2.2 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
         </svg>
@@ -300,9 +300,67 @@ get_header();
                 </div>
             </div>
 
-            <!-- الباقات والأسعار -->
+            <!-- الباقات والأسعار (ديناميكية) -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center mb-24 text-center">
-                <!-- باقة الانطلاق -->
+                <?php
+                $training_packages = new WP_Query([
+                    'post_type' => 'package',
+                    'posts_per_page' => 3,
+                    'meta_query' => [
+                        'relation' => 'OR',
+                        [
+                            'key' => '_package_style',
+                            'value' => 'standard',
+                        ],
+                        [
+                            'key' => '_package_style',
+                            'compare' => 'NOT EXISTS',
+                        ]
+                    ],
+                    'orderby' => 'menu_order',
+                    'order' => 'ASC'
+                ]);
+
+                if ($training_packages->have_posts()) {
+                    while ($training_packages->have_posts()) { $training_packages->the_post();
+                        $pid = get_the_ID();
+                        $sub = get_post_meta($pid, '_package_subtitle', true);
+                        $pr = get_post_meta($pid, '_package_price', true);
+                        $cur = get_post_meta($pid, '_package_currency', true) ?: 'ريال';
+                        $btn = get_post_meta($pid, '_package_button_text', true) ?: 'اطلب الباقة';
+                        $feat = get_post_meta($pid, '_package_is_featured', true) === '1';
+                        $features_raw = get_post_meta($pid, '_package_features', true);
+                        $features = explode("\n", str_replace("\r", "", $features_raw));
+                ?>
+                <div class="price-card <?php echo $feat ? 'featured-elite p-12 rounded-[3rem] relative' : 'p-8 rounded-3xl opacity-80 scale-95'; ?> text-center">
+                    <?php if ($feat) { ?>
+                        <div class="bg-brand text-dark text-[10px] font-black py-1.5 px-6 rounded-full absolute -top-4 left-1/2 -translate-x-1/2 uppercase italic shadow-xl text-center">الأكثر طلباً</div>
+                    <?php } ?>
+                    
+                    <h4 class="<?php echo $feat ? 'text-2xl font-black italic mb-3 uppercase text-brand' : 'text-lg font-black italic mb-3 uppercase'; ?> text-center"><?php the_title(); ?></h4>
+                    <p class="<?php echo $feat ? 'text-[11px] text-white/50 mb-4 font-bold uppercase italic' : 'text-[10px] text-white/30 mb-4 font-bold uppercase italic'; ?> text-center"><?php echo esc_html($sub); ?></p>
+                    
+                    <div class="<?php echo $feat ? 'mb-10' : 'mb-8'; ?> text-center">
+                        <span class="<?php echo $feat ? 'text-6xl font-black italic text-brand gold-glow' : 'text-4xl font-black italic text-brand'; ?> text-center"><?php echo esc_html($pr); ?></span>
+                        <span class="<?php echo $feat ? 'text-sm font-bold opacity-40 uppercase' : 'text-[10px] font-bold opacity-40 uppercase'; ?>"><?php echo esc_html($cur); ?></span>
+                    </div>
+                    
+                    <ul class="<?php echo $feat ? 'space-y-5 mb-10 text-[12px] font-bold opacity-100' : 'space-y-4 mb-8 text-[11px] font-bold opacity-60'; ?> flex-grow w-full text-center">
+                        <?php foreach ($features as $f) { if (trim($f)) { ?>
+                        <li class="flex items-center justify-center gap-3 text-center">
+                            <i data-lucide="check" class="text-brand <?php echo $feat ? 'w-5 h-5' : 'w-3 h-3'; ?> text-center"></i> 
+                            <?php echo esc_html(trim($f)); ?>
+                        </li>
+                        <?php } } ?>
+                    </ul>
+                    
+                    <a href="<?php echo bandar_get_whatsapp_url(); ?>" class="block w-full <?php echo $feat ? 'py-5 gold-gradient text-dark rounded-2xl font-black text-lg italic hover:scale-105 transition-all shadow-xl' : 'py-4 border border-brand/20 text-brand rounded-xl font-black italic hover:bg-brand hover:text-dark transition-all'; ?> text-center">
+                        <?php echo esc_html($btn); ?>
+                    </a>
+                </div>
+                <?php } wp_reset_postdata(); ?>
+                <?php } else { ?>
+                <!-- باقة افتراضية -->
                 <div class="price-card p-8 rounded-3xl opacity-80 scale-95 text-center text-center">
                     <h4 class="text-lg font-black italic mb-3 uppercase text-center text-center text-center">باقة الانطلاق</h4>
                     <p class="text-[10px] text-white/30 mb-4 font-bold uppercase italic text-center">06 حصص تدريبية</p>
@@ -312,47 +370,10 @@ get_header();
                     </div>
                     <ul class="space-y-4 mb-8 text-[11px] font-bold opacity-60 flex-grow text-center text-center text-center">
                         <li class="flex items-center justify-center gap-2"><i data-lucide="check" class="text-brand w-3 h-3 text-center text-center text-center text-center text-center"></i> حصص تدريبية ميدانية مكثفة</li>
-                        <li class="flex items-center justify-center gap-2 text-center text-center text-center"><i data-lucide="check" class="text-brand w-3 h-3 text-center text-center text-center text-center"></i> تحليل الأحمال البدنية اليومي</li>
-                        <li class="flex items-center justify-center gap-2 text-center text-center text-center"><i data-lucide="check" class="text-brand w-3 h-3 text-center text-center text-center text-center"></i> جدول غذائي رياضي مخصص</li>
                     </ul>
                     <button class="w-full py-4 border border-brand/20 text-brand rounded-xl font-black italic hover:bg-brand hover:text-dark transition-all">اطلب الباقة</button>
                 </div>
-
-                <!-- باقة الاحتراف (المميزة) -->
-                <div class="price-card featured-elite p-12 rounded-[3rem] relative text-center">
-                    <div class="bg-brand text-dark text-[10px] font-black py-1.5 px-6 rounded-full absolute -top-4 left-1/2 -translate-x-1/2 uppercase italic shadow-xl text-center">الأكثر طلباً</div>
-                    <h4 class="text-2xl font-black italic mb-3 uppercase text-brand text-center text-center">باقة الاحتراف</h4>
-                    <p class="text-[11px] text-white/50 mb-4 font-bold uppercase italic text-center">12 حصة تدريبية شاملة</p>
-                    <div class="mb-10 text-center text-center">
-                        <span class="text-6xl font-black italic text-brand gold-glow text-center text-center">1,900</span>
-                        <span class="text-sm font-bold opacity-40 uppercase text-center text-center">ريال</span>
-                    </div>
-                    <ul class="space-y-5 mb-10 text-[12px] font-bold opacity-100 flex-grow w-full text-center">
-                        <li class="flex items-center justify-center gap-3 text-center text-center text-center"><i data-lucide="check" class="text-brand w-5 h-5 text-center text-center text-center"></i> حصص تدريبية ميدانية أسبوعية</li>
-                        <li class="flex items-center justify-center gap-3 text-center text-center text-center"><i data-lucide="check" class="text-brand w-5 h-5 text-center text-center"></i> نظام تتبع الأحمال الرقمي</li>
-                        <li class="flex items-center justify-center gap-3 text-center text-center text-center"><i data-lucide="check" class="text-brand w-5 h-5 text-center text-center"></i> برنامج غذائي متكامل حسب الهدف</li>
-                        <li class="flex items-center justify-center gap-3 text-center text-center text-center"><i data-lucide="check" class="text-brand w-5 h-5 text-center text-center"></i> بروتوكول استشفاء ووقاية شامل</li>
-                    </ul>
-                    <button class="w-full py-5 gold-gradient text-dark rounded-2xl font-black text-lg italic hover:scale-105 transition-all shadow-xl text-center">ابدأ الاحتراف الآن</button>
-                </div>
-
-                <!-- باقة النخبة -->
-                <div class="price-card p-8 rounded-3xl opacity-80 scale-95 text-center text-center text-center">
-                    <h4 class="text-lg font-black italic mb-3 uppercase text-center text-center">باقة النخبة</h4>
-                    <p class="text-[10px] text-white/30 mb-4 font-bold uppercase italic text-center text-center text-center">24 حصة تدريبية</p>
-                    <div class="mb-8 text-center text-center">
-                        <span class="text-4xl font-black italic text-brand text-center text-center">3,399</span>
-                        <span class="text-[10px] font-bold opacity-40 uppercase text-center text-center">ريال</span>
-                    </div>
-                    <ul class="space-y-4 mb-8 text-[11px] font-bold opacity-60 flex-grow text-center text-center text-center">
-                        <li class="bg-brand/10 p-3 rounded-xl text-brand flex flex-col items-center gap-1 border border-brand/20 mb-2 text-center text-center text-center text-center">
-                            <span class="flex items-center gap-2 font-black text-[11px] italic uppercase text-center text-center"><i data-lucide="star" class="w-3 h-3 text-center text-center text-center"></i> تشمل الاختبارات البدنية كاملة</span>
-                            <span class="text-[9px] opacity-70 text-center">(السرعة، التحمل، الرشاقة، والقوة)</span>
-                        </li>
-                        <li class="flex items-center justify-center gap-2 text-center"><i data-lucide="check" class="text-brand w-3 h-3 text-center"></i> برنامج إعداد بدني طويل المدى</li>
-                    </ul>
-                    <button class="w-full py-4 border border-brand/20 text-brand rounded-xl font-black italic hover:bg-brand hover:text-dark transition-all text-center">كن من النخبة</button>
-                </div>
+                <?php } ?>
             </div>
         </section>
 
@@ -361,33 +382,73 @@ get_header();
             <h2 class="text-4xl font-black italic mb-16 uppercase text-center text-center text-center text-center text-center">تقييمات الأداء الرياضي</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24 text-center">
-                <div class="eval-compact-card text-center text-center text-center text-center">
-                    <div class="w-14 h-14 bg-brand/10 rounded-2xl flex items-center justify-center border border-brand/20 mb-6 text-center text-center text-center text-center text-center"><i data-lucide="lungs" class="text-brand w-7 h-7"></i></div>
-                    <h4 class="text-xl font-black italic mb-3 uppercase text-center text-center">VO2 Max (التحمل)</h4>
-                    <p class="text-white/50 text-xs leading-relaxed italic text-center">قياس كفاءة القلب والرئتين للحفاظ على شدة اللعب طوال المباراة.</p>
+                <?php
+                $eval_services = get_posts([
+                    'post_type' => 'evaluation_service',
+                    'posts_per_page' => 3,
+                    'orderby' => 'date',
+                    'order' => 'ASC'
+                ]);
+
+                if ($eval_services) {
+                    foreach ($eval_services as $service) {
+                        $service_icon = get_post_meta($service->ID, '_service_icon', true) ?: 'activity';
+                ?>
+                <div class="eval-compact-card text-center">
+                    <div class="w-14 h-14 bg-brand/10 rounded-2xl flex items-center justify-center border border-brand/20 mb-6 mx-auto"><i data-lucide="<?php echo esc_attr($service_icon); ?>" class="text-brand w-7 h-7"></i></div>
+                    <h4 class="text-xl font-black italic mb-3 uppercase"><?php echo esc_html($service->post_title); ?></h4>
+                    <div class="text-white/50 text-xs leading-relaxed italic"><?php echo apply_filters('the_content', $service->post_content); ?></div>
                 </div>
-                <div class="eval-compact-card text-center text-center text-center text-center">
-                    <div class="w-14 h-14 bg-brand/10 rounded-2xl flex items-center justify-center border border-brand/20 mb-6 text-center text-center text-center text-center"><i data-lucide="timer" class="text-brand w-7 h-7"></i></div>
-                    <h4 class="text-xl font-black italic mb-3 uppercase text-center text-center">التسارع والسرعة</h4>
-                    <p class="text-white/50 text-xs leading-relaxed italic text-center">تحليل بروفايل السرعة والقوة الانفجارية في الانطلاقة الأولى.</p>
+                <?php
+                    }
+                } else {
+                ?>
+                <div class="eval-compact-card text-center">
+                    <div class="w-14 h-14 bg-brand/10 rounded-2xl flex items-center justify-center border border-brand/20 mb-6 mx-auto"><i data-lucide="lungs" class="text-brand w-7 h-7"></i></div>
+                    <h4 class="text-xl font-black italic mb-3 uppercase">VO2 Max (التحمل)</h4>
+                    <p class="text-white/50 text-xs leading-relaxed italic">قياس كفاءة القلب والرئتين للحفاظ على شدة اللعب طوال المباراة.</p>
                 </div>
-                <div class="eval-compact-card text-center text-center text-center">
-                    <div class="w-14 h-14 bg-brand/10 rounded-2xl flex items-center justify-center border border-brand/20 mb-6 text-center text-center text-center text-center text-center"><i data-lucide="move" class="text-brand w-7 h-7"></i></div>
-                    <h4 class="text-xl font-black italic mb-3 uppercase text-center text-center">الرشاقة وتغيير الاتجاه</h4>
-                    <p class="text-white/50 text-xs leading-relaxed italic text-center">قياس قدرتك على المناورة والتحكم في مركز ثقل الجسم.</p>
+                <div class="eval-compact-card text-center">
+                    <div class="w-14 h-14 bg-brand/10 rounded-2xl flex items-center justify-center border border-brand/20 mb-6 mx-auto"><i data-lucide="timer" class="text-brand w-7 h-7"></i></div>
+                    <h4 class="text-xl font-black italic mb-3 uppercase">التسارع والسرعة</h4>
+                    <p class="text-white/50 text-xs leading-relaxed italic">تحليل بروفايل السرعة والقوة الانفجارية في الانطلاقة الأولى.</p>
                 </div>
+                <div class="eval-compact-card text-center">
+                    <div class="w-14 h-14 bg-brand/10 rounded-2xl flex items-center justify-center border border-brand/20 mb-6 mx-auto"><i data-lucide="move" class="text-brand w-7 h-7"></i></div>
+                    <h4 class="text-xl font-black italic mb-3 uppercase">الرشاقة وتغيير الاتجاه</h4>
+                    <p class="text-white/50 text-xs leading-relaxed italic">قياس قدرتك على المناورة والتحكم في مركز ثقل الجسم.</p>
+                </div>
+                <?php } ?>
             </div>
 
             <!-- ألبوم المختبر الحي -->
             <div class="mb-16 text-center">
                 <h3 class="text-2xl font-black italic text-brand uppercase mb-10 text-center">ألبوم مختبر الأداء الحي</h3>
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-6 text-center text-center">
-                    <div class="album-container text-center"><img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=600" class="album-img" alt="Test 1"></div>
-                    <div class="album-container text-center"><img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=600" class="album-img" alt="Test 2"></div>
-                    <div class="album-container text-center"><img src="https://images.unsplash.com/photo-1599058917232-d750c1859d7c?q=80&w=600" class="album-img" alt="Test 3"></div>
-                    <div class="album-container text-center"><img src="https://images.unsplash.com/photo-1526676037777-05a232554f7a?q=80&w=600" class="album-img" alt="Test 4"></div>
-                    <div class="album-container text-center"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600" class="album-img" alt="Test 5"></div>
-                    <div class="album-container text-center"><img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=600" class="album-img" alt="Test 6"></div>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-6 text-center">
+                    <?php
+                    $lab_photos = get_posts([
+                        'post_type' => 'lab_album',
+                        'posts_per_page' => 6,
+                        'orderby' => 'date',
+                        'order' => 'DESC'
+                    ]);
+
+                    if ($lab_photos) {
+                        foreach ($lab_photos as $photo) {
+                            $photo_url = get_the_post_thumbnail_url($photo->ID, 'large');
+                    ?>
+                    <div class="album-container"><img src="<?php echo esc_url($photo_url); ?>" class="album-img" alt="<?php echo esc_attr($photo->post_title); ?>"></div>
+                    <?php
+                        }
+                    } else {
+                    ?>
+                    <div class="album-container"><img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=600" class="album-img" alt="Test 1"></div>
+                    <div class="album-container"><img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=600" class="album-img" alt="Test 2"></div>
+                    <div class="album-container"><img src="https://images.unsplash.com/photo-1599058917232-d750c1859d7c?q=80&w=600" class="album-img" alt="Test 3"></div>
+                    <div class="album-container"><img src="https://images.unsplash.com/photo-1526676037777-05a232554f7a?q=80&w=600" class="album-img" alt="Test 4"></div>
+                    <div class="album-container"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600" class="album-img" alt="Test 5"></div>
+                    <div class="album-container"><img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=600" class="album-img" alt="Test 6"></div>
+                    <?php } ?>
                 </div>
             </div>
 
@@ -425,42 +486,68 @@ get_header();
                 </div>
             </div>
 
-            <!-- باقة الاختبارات -->
+            <!-- باقة الاختبارات (ديناميكية) -->
+            <?php
+            $premium_packages = new WP_Query([
+                'post_type' => 'package',
+                'posts_per_page' => 1,
+                'meta_query' => [
+                    [
+                        'key' => '_package_style',
+                        'value' => 'premium',
+                    ]
+                ]
+            ]);
+
+            if ($premium_packages->have_posts()) {
+                while ($premium_packages->have_posts()) { $premium_packages->the_post();
+                    $p_id = get_the_ID();
+                    $p_subtitle = get_post_meta($p_id, '_package_subtitle', true);
+                    $p_price = get_post_meta($p_id, '_package_price', true);
+                    $p_currency = get_post_meta($p_id, '_package_currency', true) ?: 'ريال';
+                    $p_button = get_post_meta($p_id, '_package_button_text', true) ?: 'احجز موعد التقييم الآن';
+                    $p_features_raw = get_post_meta($p_id, '_package_features', true);
+                    $p_features = explode("\n", str_replace("\r", "", $p_features_raw));
+            ?>
+            <div class="max-w-xl mx-auto bg-surface p-12 rounded-[3rem] border border-brand/30 text-center shadow-2xl text-center text-center">
+                <div class="mb-10 text-center text-center">
+                    <h4 class="text-2xl font-black italic mb-4 uppercase text-center text-center"><?php the_title(); ?></h4>
+                    <div class="mb-8 text-center text-center text-center">
+                        <span class="text-6xl font-black italic text-brand text-center text-center text-center"><?php echo esc_html($p_price); ?></span> 
+                        <span class="text-sm font-bold opacity-40 uppercase text-center"><?php echo esc_html($p_currency); ?> / <?php echo esc_html($p_subtitle); ?></span>
+                    </div>
+                    <ul class="space-y-5 text-xs font-bold opacity-80 text-center text-center">
+                        <?php foreach ($p_features as $f) { if (trim($f)) { ?>
+                        <li class="flex items-center justify-center gap-3 text-center text-center text-center">
+                            <i data-lucide="check-circle" class="text-brand w-4 h-4 shrink-0 text-center text-center"></i> 
+                            <span><?php echo esc_html(trim($f)); ?></span>
+                        </li>
+                        <?php } } ?>
+                    </ul>
+                </div>
+                <a href="<?php echo bandar_get_whatsapp_url(); ?>" class="block w-full py-5 gold-gradient text-dark rounded-xl font-black text-lg italic uppercase hover:scale-105 transition-all text-center shadow-lg shadow-brand/20"><?php echo esc_html($p_button); ?></a>
+            </div>
+            <?php } wp_reset_postdata(); ?>
+            <?php } else { ?>
+            <!-- باقة افتراضية -->
             <div class="max-w-xl mx-auto bg-surface p-12 rounded-[3rem] border border-brand/30 text-center shadow-2xl text-center text-center">
                 <div class="mb-10 text-center text-center">
                     <h4 class="text-2xl font-black italic mb-4 uppercase text-center text-center">باقة الاختبارات الاحترافية</h4>
                     <div class="mb-8 text-center text-center text-center"><span class="text-6xl font-black italic text-brand text-center text-center text-center">499</span> <span class="text-sm font-bold opacity-40 uppercase text-center">ريال / تقييم</span></div>
                     <ul class="space-y-5 text-xs font-bold opacity-80 text-center text-center">
                         <li class="flex items-center justify-center gap-3 text-center text-center text-center"><i data-lucide="check-circle" class="text-brand w-4 h-4 shrink-0 text-center text-center"></i> <span>التقييمات البدنية الشاملة لجميع الوظائف الحركية</span></li>
-                        <li class="flex items-center justify-center gap-3 text-center text-center text-center text-center"><i data-lucide="check-circle" class="text-brand w-4 h-4 shrink-0 text-center text-center"></i> <span>تقرير تقني مفصل (PDF) جاهز للتقديم للأندية</span></li>
-                        <li class="flex items-center justify-center gap-3 text-center text-center text-center text-center text-center text-center"><i data-lucide="check-circle" class="text-brand w-4 h-4 shrink-0 text-center text-center"></i> <span>مقارنة مستواك الفعلي مع معايير اللاعبين النخبة</span></li>
-                        <li class="flex items-center justify-center gap-3 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center"><i data-lucide="check-circle" class="text-brand w-4 h-4 shrink-0 text-center text-center"></i> <span>جلسة استشارية خاصة لتحليل نقاط الضعف وتطويرها</span></li>
                     </ul>
                 </div>
                 <button class="w-full py-5 gold-gradient text-dark rounded-xl font-black text-lg italic uppercase hover:scale-105 transition-all text-center shadow-lg shadow-brand/20">احجز موعد التقييم الآن</button>
             </div>
+            <?php } ?>
         </section>
 
     </main>
 
     <!-- Footer -->
-    <footer class="py-20 border-t border-white/5 text-center bg-dark/50 text-center text-center">
-        <span class="text-2xl font-black italic uppercase text-brand gold-glow block mb-10 text-center text-center text-center text-center text-center text-center">BANDAR FIT</span>
-        
-        <div class="mb-10 text-center text-center text-center text-center">
-            <a href="https://wa.me/966500000000" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 bg-brand/10 border border-brand/30 rounded-2xl text-brand font-black italic hover:bg-brand hover:text-dark transition-all text-center text-center text-center">
-                <i data-lucide="message-circle" class="w-6 h-6 text-center text-center"></i>
-                تواصل مباشر عبر واتساب
-            </a>
-        </div>
-
-        <div class="flex gap-6 justify-center mb-10 text-center text-center">
-            <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center border border-white/10 hover:border-brand transition-all text-center text-center"><i data-lucide="instagram" class="w-5 h-5 text-center text-center"></i></a>
-            <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center border border-white/10 hover:border-brand transition-all text-center text-center"><i data-lucide="music-2" class="w-5 h-5 text-center text-center"></i></a> 
-            <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center border border-white/10 hover:border-brand transition-all text-center text-center text-center text-center text-center"><i data-lucide="twitter" class="w-5 h-5 text-center text-center"></i></a>
-        </div>
-        <p class="text-white/20 text-[10px] font-black uppercase italic text-center text-center text-center">© 2024 BANDAR FIT | هندسة أداء المحترفين</p>
-    </footer>
+    <?php get_template_part('template-parts/footer', 'main'); ?>
+    <?php wp_footer(); ?>
 
     <script>
         lucide.createIcons();
@@ -503,5 +590,3 @@ get_header();
     </script>
 </body>
 </html>
-
-<?php get_footer(); ?>

@@ -239,10 +239,7 @@ function bandar_add_preload_links() {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <?php
-    $hero_image = get_theme_mod('hero_image', BANDAR_IMAGES_URI . '/hero-default.jpg');
-    if ($hero_image) {
-        echo '<link rel="preload" as="image" href="' . esc_url($hero_image) . '">';
-    }
+    // Hero image preloading removed - no longer supported
     ?>
     <?php
 }

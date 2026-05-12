@@ -61,26 +61,3 @@ function bandar_whatsapp_button($text = null, $size = 'default') {
     $text = $text ?: __('تواصل عبر واتساب', 'bandar-fit');
     return bandar_button($text, 'whatsapp', bandar_get_whatsapp_url(), 'message-circle', ['size' => $size]);
 }
-
-/**
- * زر شراء منتج
- */
-function bandar_add_to_cart_button($product_id, $text = null) {
-    if (!class_exists('WooCommerce')) {
-        return '';
-    }
-    
-    $text = $text ?: __('أضف إلى السلة', 'bandar-fit');
-    $product = wc_get_product($product_id);
-    
-    if (!$product) {
-        return '';
-    }
-    
-    return sprintf(
-        '<a href="%s" class="btn btn-primary add_to_cart_button" data-product_id="%d">%s</a>',
-        esc_url($product->add_to_cart_url()),
-        $product_id,
-        esc_html($text)
-    );
-}

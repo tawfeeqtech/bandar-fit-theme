@@ -1,6 +1,6 @@
 <?php
 /**
- * دوال مساعدة عامة
+ * الدوال المساعدة للثيم
  * @package BandarFit
  */
 
@@ -12,7 +12,7 @@ function bandar_format_price($price, $currency = 'SAR') {
 }
 
 /**
- * قص النص إلى عدد معين من الكلمات
+ * الحصول على مقتطف النص
  */
 function bandar_excerpt($limit = 20) {
     $excerpt = get_the_excerpt();
@@ -40,29 +40,21 @@ function bandar_get_thumbnail($post_id = null, $size = 'large') {
 }
 
 /**
- * إضافة صفوف CSS مخصصة للـ body
+ * إضافة كلاسات مخصصة للجسم body
  */
 function bandar_body_classes($classes) {
-    // إضافة class للغة
     if (is_rtl()) {
         $classes[] = 'rtl';
     } else {
         $classes[] = 'ltr';
     }
     
-    // إضافة class للمتصفح
     if (is_front_page()) {
         $classes[] = 'front-page';
     }
     
-    // إضافة class للمستخدم المسجل
     if (is_user_logged_in()) {
         $classes[] = 'logged-in';
-    }
-    
-    // إضافة class لـ WooCommerce
-    if (class_exists('WooCommerce')) {
-        $classes[] = 'has-woocommerce';
     }
     
     return $classes;
@@ -70,7 +62,7 @@ function bandar_body_classes($classes) {
 add_filter('body_class', 'bandar_body_classes');
 
 /**
- * إضافة سمة lang إلى HTML
+ * سمات اللغة لوسم HTML
  */
 function bandar_language_attributes() {
     $language = get_bloginfo('language');
@@ -79,7 +71,7 @@ function bandar_language_attributes() {
 }
 
 /**
- * التنقل بين الصفحات (Pagination)
+ * عرض الترقيم الصفحي
  */
 function bandar_pagination() {
     global $wp_query;
@@ -106,7 +98,7 @@ function bandar_pagination() {
 }
 
 /**
- * الحصول على الشعار
+ * عرض شعار الموقع
  */
 function bandar_logo() {
     if (has_custom_logo()) {
@@ -120,7 +112,9 @@ function bandar_logo() {
     }
 }
 
-// inc/helpers.php - إضافة معالجة الأخطاء
+/**
+ * جلب ميتاداتا المنشور بشكل آمن
+ */
 function bandar_safe_get_post_meta($post_id, $key, $default = '') {
     if (!$post_id || !is_numeric($post_id)) {
         return $default;
@@ -130,6 +124,9 @@ function bandar_safe_get_post_meta($post_id, $key, $default = '') {
     return !empty($value) ? $value : $default;
 }
 
+/**
+ * جلب جزء القالب بشكل آمن
+ */
 function bandar_safe_get_template_part($slug, $name = null) {
     try {
         get_template_part($slug, $name);
@@ -140,3 +137,46 @@ function bandar_safe_get_template_part($slug, $name = null) {
         echo '<!-- Template part error: ' . esc_html($slug) . ' -->';
     }
 }
+
+/**
+ * السماح بوسوم SVG في wp_kses
+ */
+function bandar_allow_svg_tags($allowed_tags, $context) {
+    if ($context === 'post' || $context === 'data') {
+        $allowed_tags['svg'] = [
+            'xmlns'       => true,
+            'width'       => true,
+            'height'      => true,
+            'viewbox'     => true,
+            'fill'        => true,
+            'stroke'      => true,
+            'stroke-width' => true,
+            'stroke-linecap' => true,
+            'stroke-linejoin' => true,
+            'class'       => true,
+            'aria-hidden' => true,
+            'data-lucide' => true,
+        ];
+        $allowed_tags['path'] = [
+            'd'    => true,
+            'fill' => true,
+        ];
+        $allowed_tags['circle'] = [
+            'cx'   => true,
+            'cy'   => true,
+            'r'    => true,
+            'fill' => true,
+        ];
+        $allowed_tags['polyline'] = [
+            'points' => true,
+        ];
+        $allowed_tags['line'] = [
+            'x1' => true,
+            'y1' => true,
+            'x2' => true,
+            'y2' => true,
+        ];
+    }
+    return $allowed_tags;
+}
+add_filter('wp_kses_allowed_html', 'bandar_allow_svg_tags', 10, 2);
